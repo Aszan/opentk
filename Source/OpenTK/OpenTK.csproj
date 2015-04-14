@@ -1,6 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
+    <!-- Setting a default portable profile, although nothing should resolve from there as we want to use the pacakge refs -->
+    <TargetPlatformIdentifier>Portable</TargetPlatformIdentifier>
+    <TargetFrameworkIdentifier>.NETPortable</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
+    <TargetFrameworkMonikerDisplayName>.NET Portable Subset</TargetFrameworkMonikerDisplayName>
+    <ImplicitlyExpandTargetFramework>false</ImplicitlyExpandTargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
@@ -14,7 +23,6 @@
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
     <DelaySign>false</DelaySign>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>
     </AppDesignerFolder>
@@ -46,7 +54,7 @@
     <BaseAddress>285212672</BaseAddress>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <DocumentationFile>..\..\Binaries\OpenTK\Debug\OpenTK.xml</DocumentationFile>
     <FileAlignment>4096</FileAlignment>
     <Optimize>False</Optimize>
@@ -105,33 +113,22 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>True</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\..\OpenTK.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System">
-      <Name>System</Name>
-    </Reference>
-    <Reference Include="System.Data">
-      <Name>System.Data</Name>
-    </Reference>
-    <Reference Include="System.Drawing">
-      <Name>System.Drawing</Name>
-    </Reference>
-    <Reference Include="System.Xml">
-      <Name>System.Xml</Name>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="ApplicationException.cs" />
+    <Compile Include="CancelEventArgs.cs" />
     <Compile Include="DisplayDevice.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DisplayIndex.cs" />
+    <Compile Include="EntryPointNotFoundException.cs" />
     <Compile Include="Graphics\GraphicsModeComparer.cs" />
     <Compile Include="Input\GamePadThumbSticks.cs" />
     <Compile Include="Input\GamePadTriggers.cs" />
@@ -164,16 +161,26 @@
     <Compile Include="Math\Matrix4x3d.cs" />
     <Compile Include="Platform\Common\Hid.cs" />
     <Compile Include="Platform\DisplayDeviceBase.cs" />
+    <!--
     <Compile Include="Platform\Egl\EglUnixContext.cs" />
+	-->
     <Compile Include="Platform\Egl\EglWinContext.cs" />
     <Compile Include="Platform\MappedGamePadDriver.cs" />
+    <Compile Include="Platform\Windows\AccessViolationException.cs" />
+    <Compile Include="Platform\Windows\ApartmentState.cs" />
     <Compile Include="Platform\Windows\Bindings\HidProtocol.cs" />
+    <Compile Include="Mocks.cs" />
+    <Compile Include="EnvironmentMocks.cs" />
     <Compile Include="Platform\Windows\WinInputBase.cs" />
     <Compile Include="Platform\Windows\WinRawJoystick.cs" />
     <Compile Include="Platform\Windows\XInputJoystick.cs" />
+    <!--
     <Compile Include="Platform\X11\Bindings\DL.cs" />
     <Compile Include="Platform\X11\Bindings\INotify.cs" />
     <Compile Include="Platform\X11\Bindings\XI.cs" />
+    <Compile Include="Platform\X11\EntryPointNotFoundException.cs" />
+	-->
+    <Compile Include="SuppressUnmanagedCodeSecurity.cs" />
     <Compile Include="ToolkitOptions.cs" />
     <Compile Include="WindowBorder.cs">
       <SubType>Code</SubType>
@@ -265,9 +272,10 @@
     <Compile Include="Platform\Dummy\DummyGLContext.cs">
       <SubType>Code</SubType>
     </Compile>
+    <!--
     <Compile Include="Platform\Egl\EglX11PlatformFactory.cs">
       <SubType>Code</SubType>
-    </Compile>
+    </Compile> -->
     <Compile Include="Platform\Egl\EglWinPlatformFactory.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -283,9 +291,12 @@
     <Compile Include="Platform\Egl\EglContext.cs">
       <SubType>Code</SubType>
     </Compile>
+    <!--
     <Compile Include="Platform\Egl\EglMacPlatformFactory.cs">
       <SubType>Code</SubType>
     </Compile>
+	-->
+    <!--
     <Compile Include="Platform\MacOS\MacOSFactory.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -298,6 +309,7 @@
     <Compile Include="Platform\MacOS\QuartzDisplayDeviceDriver.cs">
       <SubType>Code</SubType>
     </Compile>
+	-->
     <Compile Include="Platform\Windows\WinRawKeyboard.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -340,6 +352,7 @@
     <Compile Include="Platform\Windows\Bindings\WglEnums.cs">
       <SubType>Code</SubType>
     </Compile>
+    <!-- Ignore X11 for now...
     <Compile Include="Platform\X11\X11WindowInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -373,6 +386,7 @@
     <Compile Include="Platform\X11\Bindings\Glx.cs">
       <SubType>Code</SubType>
     </Compile>
+	-->
     <Compile Include="Graphics\IGraphicsMode.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -694,13 +708,17 @@
     <None Include="..\..\OpenTK.snk">
       <Link>OpenTK.snk</Link>
     </None>
+    <!-- Ignore X11
     <Compile Include="Platform\X11\X11Keyboard.cs" />
     <Compile Include="Platform\X11\X11Mouse.cs" />
+	-->
     <Compile Include="Input\ButtonState.cs" />
     <EmbeddedResource Include="OpenTK.dll.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <!--
     <Compile Include="Platform\MacOS\HIDInput.cs" />
+	-->
     <Compile Include="IntPtrEqualityComparer.cs" />
     <Compile Include="Input\GamePadAxes.cs" />
     <Compile Include="Platform\SDL2\Sdl2DisplayDeviceDriver.cs" />
@@ -740,7 +758,9 @@
     <Compile Include="SlotAttribute.cs" />
     <Compile Include="RewrittenAttribute.cs" />
     <Compile Include="Graphics\OpenGL\GLObsolete.cs" />
+    <!--
     <Compile Include="Platform\MacOS\NS.cs" />
+	-->
     <Compile Include="Input\GamePadCapabilities.cs" />
     <Compile Include="Input\GamePadDPad.cs" />
     <Compile Include="Input\GamePadButtons.cs" />
@@ -758,6 +778,8 @@
     <Compile Include="Input\JoystickHatState.cs" />
     <Compile Include="MouseCursor.cs" />
     <Compile Include="Input\KeyModifiers.cs" />
+    <Compile Include="Platform\LegacyInputDriver.cs" />
+    <!--
     <Compile Include="Platform\MacOS\CocoaContext.cs" />
     <Compile Include="Platform\MacOS\CocoaNativeWindow.cs" />
     <Compile Include="Platform\MacOS\CocoaWindowInfo.cs" />
@@ -771,7 +793,6 @@
     <Compile Include="Platform\MacOS\Cocoa\NSOpenGLPixelFormatAttribute.cs" />
     <Compile Include="Platform\MacOS\Cocoa\NSOpenGLProfile.cs" />
     <Compile Include="Platform\MacOS\Cocoa\NSOpenGLContextParameter.cs" />
-    <Compile Include="Platform\LegacyInputDriver.cs" />
     <Compile Include="Platform\MacOS\Cocoa\NSEventType.cs" />
     <Compile Include="Platform\MacOS\Cocoa\NSEventModifierMask.cs" />
     <Compile Include="Platform\MacOS\Cocoa\NSTrackingAreaOptions.cs" />
@@ -786,10 +807,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Platform\MacOS\Carbon\Cgl.cs" />
+	-->
     <Compile Include="WindowIcon.cs" />
+    <!--
     <Compile Include="Platform\MacOS\Cocoa\NSBitmapFormat.cs" />
+	-->
     <Compile Include="Platform\NativeWindowBase.cs" />
     <Compile Include="Input\MouseEventArgs.cs" />
+    <!--
     <Compile Include="Platform\MacOS\Quartz\EventServices.cs" />
     <Compile Include="Platform\MacOS\Quartz\DisplayServices.cs">
       <SubType>Code</SubType>
@@ -797,8 +822,12 @@
     <Compile Include="Platform\MacOS\Quartz\CoreFoundation.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Platform\X11\Bindings\Xkb.cs" />
+	-->
+    <!--
+    <Compile Include="Platform\X11\Bindings\Xkb.cs" /> -->
     <Compile Include="Input\MouseScroll.cs" />
+    <Compile Include="Platform\DeviceCollection.cs" />
+    <!--
     <Compile Include="Platform\X11\X11Input.cs" />
     <Compile Include="Platform\X11\XI2Input.cs" />
     <Compile Include="Platform\X11\XI2MouseKeyboard.cs" />
@@ -820,25 +849,133 @@
     <Compile Include="Platform\Linux\Bindings\LibInput.cs" />
     <Compile Include="Platform\Linux\LinuxInput.cs" />
     <Compile Include="Platform\Linux\Bindings\Terminal.cs" />
-    <Compile Include="Platform\DeviceCollection.cs" />
+    
     <Compile Include="Platform\Linux\Bindings\Evdev.cs" />
     <Compile Include="Platform\Linux\DefaultCursor.cs" />
     <Compile Include="Platform\Linux\Bindings\Kms.cs" />
+	-->
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Reference Include="Microsoft.Win32.Primitives">
+      <HintPath>..\..\..\packages\Microsoft.Win32.Primitives.4.0.0-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\Microsoft.Win32.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Registry">
+      <HintPath>..\..\..\packages\Microsoft.Win32.Registry.4.0.0-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\Microsoft.Win32.Registry.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections">
+      <Private>True</Private>
+      <HintPath>..\..\..\packages\System.Collections.4.0.10-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Specialized">
+      <HintPath>..\..\..\packages\System.Collections.Specialized.4.0.0-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.Collections.Specialized.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Debug">
+      <Private>True</Private>
+      <HintPath>..\..\..\packages\System.Diagnostics.Debug.4.0.10-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.Diagnostics.Debug.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.TraceSource">
+      <HintPath>..\..\..\packages\System.Diagnostics.TraceSource.4.0.0-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.Diagnostics.TraceSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <HintPath>..\..\Dependencies\managed\System.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Globalization">
+      <Private>True</Private>
+      <HintPath>..\..\..\packages\System.Globalization.4.0.10-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.Globalization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO">
+      <Private>True</Private>
+      <HintPath>..\..\..\packages\System.IO.4.0.10-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem">
+      <HintPath>..\..\..\packages\System.IO.FileSystem.4.0.0-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.IO.FileSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Primitives">
+      <HintPath>..\..\..\packages\System.IO.FileSystem.Primitives.4.0.0-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.IO.FileSystem.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Watcher">
+      <HintPath>..\..\..\packages\System.IO.FileSystem.Watcher.4.0.0-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.IO.FileSystem.Watcher.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq">
+      <Private>True</Private>
+      <HintPath>..\..\..\packages\System.Linq.4.0.0-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection">
+      <Private>True</Private>
+      <HintPath>..\..\..\packages\System.Reflection.4.0.10-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.Reflection.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Extensions">
+      <Private>True</Private>
+      <HintPath>..\..\..\packages\System.Reflection.Extensions.4.0.0-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.Reflection.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Primitives">
+      <Private>True</Private>
+      <HintPath>..\..\..\packages\System.Reflection.Primitives.4.0.0-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.Reflection.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.TypeExtensions">
+      <HintPath>..\..\..\packages\System.Reflection.TypeExtensions.4.0.0-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.Reflection.TypeExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime">
+      <Private>True</Private>
+      <HintPath>..\..\..\packages\System.Runtime.4.0.20-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Extensions">
+      <Private>True</Private>
+      <HintPath>..\..\..\packages\System.Runtime.Extensions.4.0.10-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.Runtime.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Handles">
+      <HintPath>..\..\..\packages\System.Runtime.Handles.4.0.0-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.Runtime.Handles.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices">
+      <Private>True</Private>
+      <HintPath>..\..\..\packages\System.Runtime.InteropServices.4.0.20-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.Runtime.InteropServices.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Xml">
+      <Private>True</Private>
+      <HintPath>..\..\..\packages\System.Runtime.Serialization.Xml.4.0.10-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.Runtime.Serialization.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding">
+      <Private>True</Private>
+      <HintPath>..\..\..\packages\System.Text.Encoding.4.0.10-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.Text.Encoding.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading">
+      <Private>True</Private>
+      <HintPath>..\..\..\packages\System.Threading.4.0.10-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.Threading.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks">
+      <Private>True</Private>
+      <HintPath>..\..\..\packages\System.Threading.Tasks.4.0.10-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Thread">
+      <HintPath>..\..\..\packages\System.Threading.Thread.4.0.0-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.Threading.Thread.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.ReaderWriter">
+      <Private>True</Private>
+      <HintPath>..\..\..\packages\System.Xml.ReaderWriter.4.0.10-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.Xml.ReaderWriter.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.XmlSerializer">
+      <Private>True</Private>
+      <HintPath>..\..\..\packages\System.Xml.XmlSerializer.4.0.10-beta-22703\lib\portable-wpa81+wp80+win80+net45+aspnetcore50\System.Xml.XmlSerializer.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <!-- References -->
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
-  <ItemGroup />
+
   <Target Name="AfterBuild">
     <Exec Command="$(OutputPath)..\..\Tools\Debug\Rewrite.exe $(OutputPath)OpenTK.dll ..\..\OpenTK.snk -debug" Condition="$(OS) == 'Windows_NT' and $(Configuration) == 'Debug'" />
     <Exec Command="$(OutputPath)..\..\Tools\Release\Rewrite.exe $(OutputPath)OpenTK.dll ..\..\OpenTK.snk" Condition="$(OS) == 'Windows_NT' and $(Configuration) != 'Debug'" />
     <Exec Command="mono $(OutputPath)..\..\Tools\Debug\Rewrite.exe $(OutputPath)OpenTK.dll ..\..\OpenTK.snk -debug" Condition="$(OS) != 'Windows_NT' and $(Configuration) == 'Debug'" />
     <Exec Command="mono $(OutputPath)..\..\Tools\Release\Rewrite.exe $(OutputPath)OpenTK.dll ..\..\OpenTK.snk" Condition="$(OS) != 'Windows_NT' and $(Configuration) != 'Debug'" />
   </Target>
+
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>
@@ -853,9 +990,4 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
-  <ItemGroup />
-  <ItemGroup>
-    <Folder Include="Platform\Linux\" />
-    <Folder Include="Platform\Linux\Bindings\" />
-  </ItemGroup>
 </Project>

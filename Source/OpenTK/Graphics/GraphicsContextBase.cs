@@ -121,7 +121,7 @@ namespace OpenTK.Graphics
         ~GraphicsContextBase()
         {
             Dispose(false);
-            Debug.Print("[Warning] {0}:{1} leaked. Did you forget to call Dispose()?",
+            Debug.WriteLine("[Warning] {0}:{1} leaked. Did you forget to call Dispose()?",
                 GetType().FullName, Handle);
         }
         #endif

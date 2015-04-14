@@ -58,10 +58,10 @@ namespace OpenTK.Platform
 
             // Create regular platform backend
             if (Configuration.RunningOnSdl2) Default = new SDL2.Sdl2Factory();
-            else if (Configuration.RunningOnX11) Default = new X11.X11Factory();
-            else if (Configuration.RunningOnLinux) Default = new Linux.LinuxFactory();
+            //else if (Configuration.RunningOnX11) Default = new X11.X11Factory();
+            //else if (Configuration.RunningOnLinux) Default = new Linux.LinuxFactory();
             else if (Configuration.RunningOnWindows) Default = new Windows.WinFactory();
-            else if (Configuration.RunningOnMacOS) Default = new MacOS.MacOSFactory();
+            //else if (Configuration.RunningOnMacOS) Default = new MacOS.MacOSFactory();
             else Default = new UnsupportedPlatform();
 
             // Create embedded platform backend for EGL / OpenGL ES.
@@ -77,9 +77,9 @@ namespace OpenTK.Platform
             else if (Egl.Egl.IsSupported)
             {
                 if (Configuration.RunningOnLinux) Embedded = Default;
-                else if (Configuration.RunningOnX11) Embedded = new Egl.EglX11PlatformFactory();
+                //else if (Configuration.RunningOnX11) Embedded = new Egl.EglX11PlatformFactory();
                 else if (Configuration.RunningOnWindows) Embedded = new Egl.EglWinPlatformFactory();
-                else if (Configuration.RunningOnMacOS) Embedded = new Egl.EglMacPlatformFactory();
+                //else if (Configuration.RunningOnMacOS) Embedded = new Egl.EglMacPlatformFactory();
                 else Embedded = new UnsupportedPlatform();
             }
             else
@@ -241,7 +241,7 @@ namespace OpenTK.Platform
                 }
                 else
                 {
-                    Debug.Print("{0} leaked, did you forget to call Dispose()?", GetType());
+                    Debug.WriteLine("{0} leaked, did you forget to call Dispose()?", GetType());
                 }
                 disposed = true;
             }

@@ -50,12 +50,12 @@ namespace OpenTK.Platform.Windows
         public WinRawKeyboard(IntPtr windowHandle)
         {
             Debug.WriteLine("Using WinRawKeyboard.");
-            Debug.Indent();
+            Mocks.DebugIndent();
 
             this.window = windowHandle;
             RefreshDevices();
 
-            Debug.Unindent();
+            Mocks.DebugUnindent();
         }
 
         #endregion
@@ -118,7 +118,7 @@ namespace OpenTK.Platform.Windows
 
                         if (String.IsNullOrEmpty(deviceDesc))
                         {
-                            Debug.Print("[Warning] Failed to retrieve device description, skipping this device.");
+                            Debug.WriteLine("[Warning] Failed to retrieve device description, skipping this device.");
                             continue;
                         }
                         else
@@ -255,12 +255,12 @@ namespace OpenTK.Platform.Windows
 
             if (!Functions.RegisterRawInputDevices(rid, 1, API.RawInputDeviceSize))
             {
-                Debug.Print("[Warning] Raw input registration failed with error: {0}. Device: {1}",
+                Debug.WriteLine("[Warning] Raw input registration failed with error: {0}. Device: {1}",
                     Marshal.GetLastWin32Error(), rid[0].ToString());
             }
             else
             {
-                Debug.Print("Registered keyboard {0}", name);
+                Debug.WriteLine("Registered keyboard {0}", name);
             }
         }
 

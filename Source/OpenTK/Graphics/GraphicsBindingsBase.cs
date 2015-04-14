@@ -85,7 +85,7 @@ namespace OpenTK.Graphics
         // validation necessary.)
         internal override void LoadEntryPoints()
         {
-            Debug.Print("Loading entry points for {0}", GetType().FullName);
+            Debug.WriteLine("Loading entry points for {0}", GetType().FullName);
 
             IGraphicsContext context = GraphicsContext.CurrentContext;
             if (context == null)

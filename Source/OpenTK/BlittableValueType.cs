@@ -57,7 +57,7 @@ namespace OpenTK
         static BlittableValueType()
         {
             Type = typeof(T);
-            if (Type.IsValueType && !Type.IsGenericType)
+            if (Type.GetTypeInfo().IsValueType && !Type.GetTypeInfo().IsGenericType)
             {
                 // Does this support generic types? On Mono 2.4.3 it does
                 // On .Net it doesn't.
@@ -97,7 +97,7 @@ namespace OpenTK
         public static bool Check(Type type)
         {
             if (!CheckStructLayoutAttribute(type))
-                Debug.Print("Warning: type {0} does not specify a StructLayoutAttribute with Pack=1. The memory layout of the struct may change between platforms.", type.Name);
+                Debug.WriteLine("Warning: type {0} does not specify a StructLayoutAttribute with Pack=1. The memory layout of the struct may change between platforms.", type.Name);
 
             return CheckType(type);
         }
@@ -112,21 +112,21 @@ namespace OpenTK
         // Throws a NotSupportedException if it is not.
         static bool CheckType(Type type)
         {
-            //Debug.Print("Checking type {0} (size: {1} bytes).", type.Name, Marshal.SizeOf(type));
-            if (type.IsPrimitive)
+            //Debug.WriteLine("Checking type {0} (size: {1} bytes).", type.Name, Marshal.SizeOf(type));
+            if (type.GetTypeInfo().IsPrimitive)
                 return true;
 
-            if (!type.IsValueType)
+            if (!type.GetTypeInfo().IsValueType)
                 return false;
 
             FieldInfo[] fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            Debug.Indent();
+            Mocks.DebugIndent();
             foreach (FieldInfo field in fields)
             {
                 if (!CheckType(field.FieldType))
                     return false;
             }
-            Debug.Unindent();
+            Mocks.DebugUnindent();
 
             return Stride != 0;
         }
@@ -136,8 +136,8 @@ namespace OpenTK
         static bool CheckStructLayoutAttribute(Type type)
         {
             StructLayoutAttribute[] attr = (StructLayoutAttribute[])
-                type.GetCustomAttributes(typeof(StructLayoutAttribute), true);
-
+                type.GetTypeInfo().GetCustomAttributes(typeof(StructLayoutAttribute), true);
+            
             if ((attr == null) ||
                 (attr != null && attr.Length > 0 && attr[0].Value != LayoutKind.Explicit && attr[0].Pack != 1))
                 return false;

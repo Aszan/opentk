@@ -97,8 +97,13 @@ namespace OpenTK.Platform
             MethodInfo load_delegate_method_info = type.GetMethod("LoadDelegate", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
             if (load_delegate_method_info == null)
                 throw new InvalidOperationException(type.ToString() + " does not contain a static LoadDelegate method.");
-            LoadDelegateFunction LoadDelegate = (LoadDelegateFunction)Delegate.CreateDelegate(
-                typeof(LoadDelegateFunction), load_delegate_method_info);
+            //LoadDelegateFunction LoadDelegate = (LoadDelegateFunction)Delegate.CreateDelegate(
+            //    typeof(LoadDelegateFunction), load_delegate_method_info);
+
+            LoadDelegateFunction LoadDelegate = new LoadDelegateFunction((s, t) =>
+                {
+                    return (Delegate)load_delegate_method_info.Invoke(null, new object[] { s, t });
+                });
 
             Debug.Write("Load extensions for " + type.ToString() + "... ");
 
@@ -120,7 +125,7 @@ namespace OpenTK.Platform
                 rebuildExtensionList.SetValue(null, true);
 
             time.Stop();
-            Debug.Print("{0} extensions loaded in {1} ms.", supported, time.ElapsedMilliseconds);
+            Debug.WriteLine("{0} extensions loaded in {1} ms.", supported, time.ElapsedMilliseconds);
             time.Reset();
         }
 
@@ -147,22 +152,30 @@ namespace OpenTK.Platform
             Type extensions_class = type.GetNestedType("Delegates", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
             if (extensions_class == null)
             {
-                Debug.Print(type.ToString(), " does not contain extensions.");
+                Debug.WriteLine(type.ToString(), " does not contain extensions.");
                 return false;
             }
 
-            LoadDelegateFunction LoadDelegate = (LoadDelegateFunction)Delegate.CreateDelegate(typeof(LoadDelegateFunction),
-                type.GetMethod("LoadDelegate", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public));
+            MethodInfo method = type.GetMethod("LoadDelegate", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
+
+            //LoadDelegateFunction LoadDelegate = (LoadDelegateFunction)Delegate.CreateDelegate(typeof(LoadDelegateFunction),
+            //    type.GetMethod("LoadDelegate", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public));
+
+            LoadDelegateFunction LoadDelegate = new LoadDelegateFunction((s, t) =>
+                {
+                    return (Delegate)method.Invoke(null, new object[] { s, t});
+                });
+
             if (LoadDelegate == null)
             {
-                Debug.Print(type.ToString(), " does not contain a static LoadDelegate method.");
+                Debug.WriteLine(type.ToString(), " does not contain a static LoadDelegate method.");
                 return false;
             }
 
             FieldInfo f = extensions_class.GetField(extension, BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
             if (f == null)
             {
-                Debug.Print("Extension \"", extension, "\" not found in ", type.ToString());
+                Debug.WriteLine("Extension \"", extension, "\" not found in ", type.ToString());
                 return false;
             }
 
@@ -189,14 +202,14 @@ namespace OpenTK.Platform
             {
                 loader = Platform.Windows.Wgl.GetProcAddress;
             }
-            else if (Configuration.RunningOnX11)
-            {
-                loader = Platform.X11.Glx.GetProcAddress;
-            }
-            else if (Configuration.RunningOnMacOS)
-            {
-                loader = Platform.MacOS.NS.GetAddress;
-            }
+            //else if (Configuration.RunningOnX11)
+            //{
+            //    loader = Platform.X11.Glx.GetProcAddress;
+            //}
+            //else if (Configuration.RunningOnMacOS)
+            //{
+            //    loader = Platform.MacOS.NS.GetAddress;
+            //}
             else
             {
                 throw new PlatformNotSupportedException();
@@ -243,13 +256,14 @@ namespace OpenTK.Platform
         /// <returns>A new IWindowInfo instance.</returns>
         public static IWindowInfo CreateX11WindowInfo(IntPtr display, int screen, IntPtr windowHandle, IntPtr rootWindow, IntPtr visualInfo)
         {
-            Platform.X11.X11WindowInfo window = new OpenTK.Platform.X11.X11WindowInfo();
-            window.Display = display;
-            window.Screen = screen;
-            window.Handle = windowHandle;
-            window.RootWindow = rootWindow;
-            window.Visual = visualInfo;
-            return window;
+            //Platform.X11.X11WindowInfo window = new OpenTK.Platform.X11.X11WindowInfo();
+            //window.Display = display;
+            //window.Screen = screen;
+            //window.Handle = windowHandle;
+            //window.RootWindow = rootWindow;
+            //window.Visual = visualInfo;
+            //return window;
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -291,10 +305,10 @@ namespace OpenTK.Platform
         /// <param name="xOffset">The X offset for the GL viewport</param>
         /// <param name="yOffset">The Y offset for the GL viewport</param>
         /// <returns>A new IWindowInfo instance.</returns>
-        public static IWindowInfo CreateMacOSCarbonWindowInfo(IntPtr windowHandle, bool ownHandle, bool isControl, 
+        public static IWindowInfo CreateMacOSCarbonWindowInfo(IntPtr windowHandle, bool ownHandle, bool isControl,
             OpenTK.Platform.MacOS.GetInt xOffset, OpenTK.Platform.MacOS.GetInt yOffset)
         {
-            return new OpenTK.Platform.MacOS.CarbonWindowInfo(windowHandle, false, isControl, xOffset, yOffset);
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -309,7 +323,7 @@ namespace OpenTK.Platform
         /// <returns>A new IWindowInfo instance.</returns>
         public static IWindowInfo CreateMacOSWindowInfo(IntPtr windowHandle)
         {
-            return new OpenTK.Platform.MacOS.CocoaWindowInfo(windowHandle);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -320,7 +334,7 @@ namespace OpenTK.Platform
         /// <returns>A new IWindowInfo instance.</returns>
         public static IWindowInfo CreateMacOSWindowInfo(IntPtr windowHandle, IntPtr viewHandle)
         {
-            return new OpenTK.Platform.MacOS.CocoaWindowInfo(windowHandle, viewHandle);
+            throw new NotImplementedException();
         }
 
         #endregion

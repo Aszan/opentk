@@ -112,14 +112,14 @@ namespace OpenTK.Graphics
                 if (minor < 0)
                     minor = 0;
 
-                Debug.Print("Creating GraphicsContext.");
+                Debug.WriteLine("Creating GraphicsContext.");
                 try
                 {
-                    Debug.Indent();
-                    Debug.Print("GraphicsMode: {0}", mode);
-                    Debug.Print("IWindowInfo: {0}", window);
-                    Debug.Print("GraphicsContextFlags: {0}", flags);
-                    Debug.Print("Requested version: {0}.{1}", major, minor);
+                    Mocks.DebugIndent();
+                    Debug.WriteLine("GraphicsMode: {0}", mode);
+                    Debug.WriteLine("IWindowInfo: {0}", window);
+                    Debug.WriteLine("GraphicsContextFlags: {0}", flags);
+                    Debug.WriteLine("Requested version: {0}.{1}", major, minor);
 
                     IGraphicsContext shareContext = FindSharedContext();
                     
@@ -157,7 +157,7 @@ namespace OpenTK.Graphics
                 }
                 finally
                 {
-                    Debug.Unindent();
+                    Mocks.DebugUnindent();
                 }
             }
         }
@@ -288,8 +288,8 @@ namespace OpenTK.Graphics
             }
             else
             {
-                Debug.Print("A GraphicsContext with handle {0} already exists.", ctx);
-                Debug.Print("Did you forget to call Dispose()?");
+                Debug.WriteLine("A GraphicsContext with handle {0} already exists.", ctx);
+                Debug.WriteLine("Did you forget to call Dispose()?");
                 available_contexts[ctx] = (IGraphicsContext)context;
             }
         }
@@ -303,7 +303,7 @@ namespace OpenTK.Graphics
             }
             else
             {
-                Debug.Print("Tried to remove non-existent GraphicsContext handle {0}. Call Dispose() to avoid this error.", ctx);
+                Debug.WriteLine("Tried to remove non-existent GraphicsContext handle {0}. Call Dispose() to avoid this error.", ctx);
             }
         }
 
@@ -652,7 +652,7 @@ namespace OpenTK.Graphics
                 // This is also known to crash GLX implementations.
                 if (manual)
                 {
-                    Debug.Print("Disposing context {0}.", (this as IGraphicsContextInternal).Context.ToString());
+                    Debug.WriteLine("Disposing context {0}.", (this as IGraphicsContextInternal).Context.ToString());
                     if (implementation != null)
                         implementation.Dispose();
                 }

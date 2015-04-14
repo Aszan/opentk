@@ -206,7 +206,7 @@ namespace OpenTK.Platform.Windows
                     }
                     else
                     {
-                        Debug.Print("[WGL] ChoosePixelFormatARB failed with {0}", Marshal.GetLastWin32Error());
+                        Debug.WriteLine("[WGL] ChoosePixelFormatARB failed with {0}", Marshal.GetLastWin32Error());
                         retry = Utilities.RelaxGraphicsMode(ref mode);
                     }
                 }
@@ -282,7 +282,7 @@ namespace OpenTK.Platform.Windows
                 flags |= PixelFormatDescriptorFlags.STEREO;
             }
 
-            if (System.Environment.OSVersion.Version.Major >= 6 &&
+            if (System.EnvironmentMocks.OSVersion.Version.Major >= 6 &&
                 requested_acceleration_type != AccelerationType.None)
             {
                 // Request a compositor-capable mode when running on
@@ -401,7 +401,7 @@ namespace OpenTK.Platform.Windows
                 // Get the format attributes for this pixel format
                 if (!Wgl.Arb.GetPixelFormatAttrib(device, pixelformat, 0, attribs.Length - 1, attribs, values))
                 {
-                    Debug.Print("[Warning] Failed to detect attributes for PixelFormat: {0}.", pixelformat);
+                    Debug.WriteLine("[Warning] Failed to detect attributes for PixelFormat: {0}.", pixelformat);
                 }
 
                 // Skip formats that don't offer full hardware acceleration

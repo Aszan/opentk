@@ -49,9 +49,10 @@ namespace OpenTK.Platform.Windows
         internal static IntPtr OpenGLHandle { get; private set; }
         const string OpenGLName = "OPENGL32.DLL";
 
+        [System.Security.SecuritySafeCritical]
         public WinFactory()
         {
-            if (System.Environment.OSVersion.Version.Major <= 4)
+            if (System.EnvironmentMocks.OSVersion.Version.Major <= 4)
             {
                 throw new PlatformNotSupportedException("OpenTK requires Windows XP or higher");
             }
@@ -61,18 +62,19 @@ namespace OpenTK.Platform.Windows
             // (such as "error: 2000" when calling wglSetPixelFormat or slowness/lag on specific GPUs).
             LoadOpenGL();
 
-            if (System.Environment.OSVersion.Version.Major >= 6)
+            if (System.EnvironmentMocks.OSVersion.Version.Major >= 6)
             {
                 if (Toolkit.Options.EnableHighResolution)
                 {
                     // Enable high-dpi support
                     // Only available on Windows Vista and higher
                     bool result = Functions.SetProcessDPIAware();
-                    Debug.Print("SetProcessDPIAware() returned {0}", result);
+                    Debug.WriteLine("SetProcessDPIAware() returned {0}", result);
                 }
             }
         }
 
+        [System.Security.SecuritySafeCritical]
         static void LoadOpenGL()
         {
             OpenGLHandle = Functions.LoadLibrary(OpenGLName);

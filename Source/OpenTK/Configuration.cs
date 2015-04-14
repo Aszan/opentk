@@ -169,19 +169,19 @@ namespace OpenTK
         /// <returns></returns>
         private static string DetectUnixKernel()
         {
-            Debug.Print("Size: {0}", Marshal.SizeOf(typeof(utsname)).ToString());
-            Debug.Flush();
+            Debug.WriteLine("Size: {0}", Marshal.SizeOf(typeof(utsname)).ToString());
+            Mocks.DebugFlush();
             utsname uts = new utsname();
             uname(out uts);
 
             Debug.WriteLine("System:");
-            Debug.Indent();
+            Mocks.DebugIndent();
             Debug.WriteLine(uts.sysname);
             Debug.WriteLine(uts.nodename);
             Debug.WriteLine(uts.release);
             Debug.WriteLine(uts.version);
             Debug.WriteLine(uts.machine);
-            Debug.Unindent();
+            Mocks.DebugUnindent();
 
             return uts.sysname.ToString();
         }
@@ -229,7 +229,7 @@ namespace OpenTK
                         }
                         else
                         {
-                            Debug.Print("SDL2 init failed with error: {0}",
+                            Debug.WriteLine("SDL2 init failed with error: {0}",
                                 Platform.SDL2.SDL.GetError());
                         }
                     }
@@ -237,16 +237,16 @@ namespace OpenTK
             }
             catch (Exception e)
             {
-                Debug.Print("SDL2 init failed with exception: {0}", e);
+                Debug.WriteLine("SDL2 init failed with exception: {0}", e);
             }
 
             if (!supported)
             {
-                Debug.Print("SDL2 is not supported");
+                Debug.WriteLine("SDL2 is not supported");
             }
             else
             {
-                Debug.Print("SDL2 is supported. Version is {0}.{1}.{2}",
+                Debug.WriteLine("SDL2 is supported. Version is {0}.{1}.{2}",
                     version.Major, version.Minor, version.Patch);
             }
 
@@ -281,17 +281,18 @@ namespace OpenTK
 
         static bool DetectWindows()
         {
-            return
-                System.Environment.OSVersion.Platform == PlatformID.Win32NT ||
-                System.Environment.OSVersion.Platform == PlatformID.Win32S ||
-                System.Environment.OSVersion.Platform == PlatformID.Win32Windows ||
-                System.Environment.OSVersion.Platform == PlatformID.WinCE;
+            return true;
+            //return
+            //    System.EnvironmentMocks.OSVersion.Platform == PlatformID.Win32NT ||
+            //    System.EnvironmentMocks.OSVersion.Platform == PlatformID.Win32S ||
+            //    System.EnvironmentMocks.OSVersion.Platform == PlatformID.Win32Windows ||
+            //    System.EnvironmentMocks.OSVersion.Platform == PlatformID.WinCE;
         }
 
         static bool DetectX11()
         {
             // Detect whether X is present.
-            try { return OpenTK.Platform.X11.API.DefaultDisplay != IntPtr.Zero; }
+            try { return false; }
             catch { return false; }
         }
 
@@ -336,7 +337,7 @@ namespace OpenTK
 
                     initialized = true;
 #endif
-                    Debug.Print("Detected configuration: {0} / {1}",
+                    Debug.WriteLine("Detected configuration: {0} / {1}",
                         RunningOnWindows ? "Windows" : RunningOnLinux ? "Linux" : RunningOnMacOS ? "MacOS" :
                         runningOnUnix ? "Unix" : RunningOnX11 ? "X11" : "Unknown Platform",
                         RunningOnMono ? "Mono" : ".Net");

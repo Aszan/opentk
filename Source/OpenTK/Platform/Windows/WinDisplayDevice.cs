@@ -34,6 +34,7 @@ using Microsoft.Win32;
 
 namespace OpenTK.Platform.Windows
 {
+    [System.Security.SecuritySafeCritical]
     sealed class WinDisplayDeviceDriver : DisplayDeviceBase
     {
         readonly object display_lock = new object();
@@ -43,8 +44,8 @@ namespace OpenTK.Platform.Windows
         public WinDisplayDeviceDriver()
         {
             RefreshDisplayDevices();
-            SystemEvents.DisplaySettingsChanged +=
-                HandleDisplaySettingsChanged;
+            //SystemEvents.DisplaySettingsChanged +=
+            //    HandleDisplaySettingsChanged;
         }
 
         #endregion
@@ -175,7 +176,7 @@ namespace OpenTK.Platform.Windows
                     if (opentk_dev_primary)
                         Primary = opentk_dev;
 
-                    Debug.Print("DisplayDevice {0} ({1}) supports {2} resolutions.",
+                    Debug.WriteLine("DisplayDevice {0} ({1}) supports {2} resolutions.",
                         device_count, opentk_dev.IsPrimary ? "primary" : "secondary", opentk_dev.AvailableResolutions.Count);
                 }
             }
@@ -195,7 +196,7 @@ namespace OpenTK.Platform.Windows
         {
             if (mode.BitsPerPel == 0)
             {
-                Debug.Print(
+                Debug.WriteLine(
                     "[Warning] DisplayDevice '{0}' reported a mode with 0 bpp. Please create a bug report at http://www.opentk.com",
                     device.DeviceName.ToString());
                 mode.BitsPerPel = 32;
@@ -214,8 +215,8 @@ namespace OpenTK.Platform.Windows
 
         ~WinDisplayDeviceDriver()
         {
-            SystemEvents.DisplaySettingsChanged -=
-                HandleDisplaySettingsChanged;
+            //SystemEvents.DisplaySettingsChanged -=
+            //    HandleDisplaySettingsChanged;
         }
 
         #endregion

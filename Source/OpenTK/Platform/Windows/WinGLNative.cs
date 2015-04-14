@@ -32,6 +32,7 @@ using System.Text;
 using OpenTK.Graphics;
 using OpenTK.Input;
 using System.Collections.Generic;
+using System.Reflection;
 using System.IO;
 #if !MINIMAL
 using System.Drawing;
@@ -50,9 +51,9 @@ namespace OpenTK.Platform.Windows
 
         const ExtendedWindowStyle ParentStyleEx = ExtendedWindowStyle.WindowEdge | ExtendedWindowStyle.ApplicationWindow;
         const ExtendedWindowStyle ChildStyleEx = 0;
-
-        readonly IntPtr Instance = Marshal.GetHINSTANCE(typeof(WinGLNative).Module);
-        readonly IntPtr ClassName = Marshal.StringToHGlobalAuto(Guid.NewGuid().ToString());
+        //readonly IntPtr Instance = Marshal.GetHINSTANCE(typeof(WinGLNative).GetTypeInfo().Module);
+        readonly IntPtr Instance = Mocks.MarshalGetHINSTANCE(typeof(WinGLNative).GetTypeInfo().Module);
+        readonly IntPtr ClassName = Marshal.StringToHGlobalUni(Guid.NewGuid().ToString());
         readonly WindowProcedure WindowProcedureDelegate;
 
         readonly uint ModalLoopTimerPeriod = 1;
@@ -801,7 +802,7 @@ namespace OpenTK.Platform.Windows
             me.Flags = TrackMouseEventFlags.LEAVE;
 
             if (!Functions.TrackMouseEvent(ref me))
-                Debug.Print("[Warning] Failed to enable mouse tracking, error: {0}.",
+                Debug.WriteLine("[Warning] Failed to enable mouse tracking, error: {0}.",
                     Marshal.GetLastWin32Error());
         }
 
@@ -811,7 +812,7 @@ namespace OpenTK.Platform.Windows
             {
                 timer_handle = Functions.SetTimer(handle, new UIntPtr(1), ModalLoopTimerPeriod, null);
                 if (timer_handle == UIntPtr.Zero)
-                    Debug.Print("[Warning] Failed to set modal loop timer callback ({0}:{1}->{2}).",
+                    Debug.WriteLine("[Warning] Failed to set modal loop timer callback ({0}:{1}->{2}).",
                         GetType().Name, handle, Marshal.GetLastWin32Error());
             }
         }
@@ -821,7 +822,7 @@ namespace OpenTK.Platform.Windows
             if (timer_handle != UIntPtr.Zero)
             {
                 if (!Functions.KillTimer(handle, timer_handle))
-                    Debug.Print("[Warning] Failed to kill modal loop timer callback ({0}:{1}->{2}).",
+                    Debug.WriteLine("[Warning] Failed to kill modal loop timer callback ({0}:{1}->{2}).",
                         GetType().Name, handle, Marshal.GetLastWin32Error());
                 timer_handle = UIntPtr.Zero;
             }
@@ -878,7 +879,7 @@ namespace OpenTK.Platform.Windows
                 class_registered = true;
             }
 
-            IntPtr window_name = Marshal.StringToHGlobalAuto(title);
+            IntPtr window_name = Marshal.StringToHGlobalUni(title);
             IntPtr handle = Functions.CreateWindowEx(
                 ex_style, ClassName, window_name, style,
                 rect.left, rect.top, rect.Width, rect.Height,
@@ -901,7 +902,7 @@ namespace OpenTK.Platform.Windows
         {
             if (Exists)
             {
-                Debug.Print("Destroying window: {0}", window.ToString());
+                Debug.WriteLine("Destroying window: {0}", window.ToString());
                 Functions.DestroyWindow(window.Handle);
                 exists = false;
             }
@@ -1062,7 +1063,7 @@ namespace OpenTK.Platform.Windows
             {
                 sb_title.Remove(0, sb_title.Length);
                 if (Functions.GetWindowText(window.Handle, sb_title, sb_title.Capacity) == 0)
-                    Debug.Print("Failed to retrieve window title (window:{0}, reason:{1}).", window.Handle, Marshal.GetLastWin32Error());
+                    Debug.WriteLine("Failed to retrieve window title (window:{0}, reason:{1}).", window.Handle, Marshal.GetLastWin32Error());
                 return sb_title.ToString();
             }
             set
@@ -1070,7 +1071,7 @@ namespace OpenTK.Platform.Windows
                 if (Title != value)
                 {
                     if (!Functions.SetWindowText(window.Handle, value))
-                        Debug.Print("Failed to change window title (window:{0}, new title:{1}, reason:{2}).", window.Handle, value, Marshal.GetLastWin32Error());
+                        Debug.WriteLine("Failed to change window title (window:{0}, new title:{1}, reason:{2}).", window.Handle, value, Marshal.GetLastWin32Error());
                     OnTitleChanged(EventArgs.Empty);
                 }
             }
@@ -1498,7 +1499,7 @@ namespace OpenTK.Platform.Windows
                 }
                 else
                 {
-                    Debug.Print("[Warning] INativeWindow leaked ({0}). Did you forget to call INativeWindow.Dispose()?", this);
+                    Debug.WriteLine("[Warning] INativeWindow leaked ({0}). Did you forget to call INativeWindow.Dispose()?", this);
                 }
 
                 OnDisposed(EventArgs.Empty);

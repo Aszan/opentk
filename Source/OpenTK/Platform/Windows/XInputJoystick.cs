@@ -459,7 +459,7 @@ namespace OpenTK.Platform.Windows
             }
             else
             {
-                Debug.Print("{0} leaked, did you forget to call Dispose()?", typeof(XInputJoystick).Name);
+                Debug.WriteLine("{0} leaked, did you forget to call Dispose()?", typeof(XInputJoystick).Name);
             }
         }
 

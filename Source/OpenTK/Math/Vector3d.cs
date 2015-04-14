@@ -1203,9 +1203,7 @@ namespace OpenTK
         /// <remarks>Note that the returned angle is never bigger than the constant Pi.</remarks>
         public static double CalculateAngle(Vector3d first, Vector3d second)
         {
-            double result;
-            CalculateAngle(ref first, ref second, out result);
-            return result;
+            return System.Math.Acos((Vector3d.Dot(first, second)) / (first.Length * second.Length));
         }
 
         /// <summary>Calculates the angle (in radians) between two vectors.</summary>
@@ -1217,7 +1215,7 @@ namespace OpenTK
         {
             double temp;
             Vector3d.Dot(ref first, ref second, out temp);
-            result = System.Math.Acos(MathHelper.Clamp(temp / (first.Length * second.Length), -1.0, 1.0));
+            result = System.Math.Acos(temp / (first.Length * second.Length));
         }
 
         #endregion

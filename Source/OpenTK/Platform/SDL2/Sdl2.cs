@@ -65,7 +65,7 @@ namespace OpenTK.Platform.SDL2
                 catch
                 {
                     // nom nom
-                    Debug.Print("[SDL2] Failed to retrieve version");
+                    Debug.WriteLine("[SDL2] Failed to retrieve version");
                     return new Version();
                 }
             }
@@ -206,7 +206,7 @@ namespace OpenTK.Platform.SDL2
         {
             unsafe
             {
-                return new string((sbyte*)GameControllerNameInternal(gamecontroller));
+                return new string((char*)GameControllerNameInternal(gamecontroller));
             }
         }
 
@@ -338,7 +338,7 @@ namespace OpenTK.Platform.SDL2
         {
             unsafe
             {
-                return new string((sbyte*)JoystickNameInternal(joystick));
+                return new string((char*)JoystickNameInternal(joystick));
             }
         }
 

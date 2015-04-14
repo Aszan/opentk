@@ -183,6 +183,7 @@
     <None Include="..\..\OpenTK.snk">
       <Link>OpenTK.snk</Link>
     </None>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

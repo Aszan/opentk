@@ -48,7 +48,9 @@ namespace OpenTK.Rewrite
         }
 
         // mscorlib types
-        static AssemblyDefinition mscorlib;
+        static AssemblyDefinition coreAssembly;
+        static AssemblyDefinition interopAssembly;
+
         static TypeDefinition TypeMarshal;
         static TypeDefinition TypeStringBuilder;
         static TypeDefinition TypeVoid;
@@ -57,6 +59,8 @@ namespace OpenTK.Rewrite
 
         // OpenTK.BindingsBase
         static TypeDefinition TypeBindingsBase;
+        static TypeReference IntPtrReference;
+        static TypeReference Int32Reference;
 
         void Rewrite(string file, string keyfile, IEnumerable<string> options)
         {
@@ -93,6 +97,9 @@ namespace OpenTK.Rewrite
             }
 
             // Load assembly and process all modules
+            DefaultAssemblyResolver resolver = new DefaultAssemblyResolver();
+            resolver.AddSearchDirectory(Path.GetDirectoryName(file));
+            read_params.AssemblyResolver = resolver;
             var assembly = AssemblyDefinition.ReadAssembly(file, read_params);
             var rewritten = assembly.CustomAttributes.FirstOrDefault(a => a.AttributeType.Name == "RewrittenAttribute");
             if (rewritten == null)
@@ -101,24 +108,40 @@ namespace OpenTK.Rewrite
                 {
                     foreach (var reference in module.AssemblyReferences)
                     {
-                        var resolved = module.AssemblyResolver.Resolve(reference);
-                        if (reference.Name == "mscorlib")
+                        try
                         {
-                            mscorlib = resolved;
+
+                            var resolved = module.AssemblyResolver.Resolve(reference);
+                            //if (reference.Name == "mscorlib")
+                            if (reference.Name == "System.Runtime")
+                            {
+                                coreAssembly = resolved;
+                            }
+                            else if (reference.Name == "System.Runtime.InteropServices")
+                            {
+                                interopAssembly = resolved;
+                            }
+                        }
+                        catch (AssemblyResolutionException are)
+                        {
+                            Console.Error.WriteLine("Couldn't resolve assembly reference: " + are.AssemblyReference);
                         }
                     }
                 }
 
-                if (mscorlib == null)
+                if (coreAssembly == null)
                 {
                     Console.Error.WriteLine("Failed to locate mscorlib");
                     return;
                 }
-                TypeMarshal = mscorlib.MainModule.GetType("System.Runtime.InteropServices.Marshal");
-                TypeStringBuilder = mscorlib.MainModule.GetType("System.Text.StringBuilder");
-                TypeVoid = mscorlib.MainModule.GetType("System.Void");
-                TypeIntPtr = mscorlib.MainModule.GetType("System.IntPtr");
-                TypeInt32 = mscorlib.MainModule.GetType("System.Int32");
+                TypeMarshal = interopAssembly.MainModule.GetType("System.Runtime.InteropServices.Marshal");
+                TypeStringBuilder = coreAssembly.MainModule.GetType("System.Text.StringBuilder");
+                TypeVoid = coreAssembly.MainModule.GetType("System.Void");
+                TypeIntPtr = coreAssembly.MainModule.GetType("System.IntPtr");
+                TypeInt32 = coreAssembly.MainModule.GetType("System.Int32");
+
+                IntPtrReference = assembly.MainModule.Import(TypeIntPtr);
+                Int32Reference = assembly.MainModule.Import(TypeInt32);
 
                 TypeBindingsBase = assembly.Modules.Select(m => m.GetType("OpenTK.BindingsBase")).First();
 
@@ -159,7 +182,7 @@ namespace OpenTK.Rewrite
                 var rewritten_constructor = type.GetConstructors().First();
                 var rewritten = new CustomAttribute(rewritten_constructor);
                 rewritten.ConstructorArguments.Add(new CustomAttributeArgument(
-                    type.Module.Import(mscorlib.MainModule.GetType("System.Boolean")), true));
+                    type.Module.Import(coreAssembly.MainModule.GetType("System.Boolean")), true));
                 type.Module.Assembly.CustomAttributes.Add(rewritten);
             }
         }
@@ -463,7 +486,7 @@ namespace OpenTK.Rewrite
                     // String return-type wrapper
                     // return new string((sbyte*)((void*)GetString()));
 
-                    var intptr_to_voidpointer = wrapper.Module.Import(mscorlib.MainModule.GetType("System.IntPtr").GetMethods()
+                    var intptr_to_voidpointer = wrapper.Module.Import(coreAssembly.MainModule.GetType("System.IntPtr").GetMethods()
                         .First(m =>
                     {
                         return
@@ -471,11 +494,11 @@ namespace OpenTK.Rewrite
                         m.ReturnType.Name == "Void*";
                     }));
 
-                    var string_constructor = wrapper.Module.Import(mscorlib.MainModule.GetType("System.String").GetConstructors()
+                    var string_constructor = wrapper.Module.Import(coreAssembly.MainModule.GetType("System.String").GetConstructors()
                         .First(m =>
                     {
                         var p = m.Parameters;
-                        return p.Count > 0 && p[0].ParameterType.Name == "SByte*";
+                        return p.Count > 0 && p[0].ParameterType.Name == "Char*";
                     }));
 
                     il.Emit(OpCodes.Call, intptr_to_voidpointer);
@@ -546,7 +569,7 @@ namespace OpenTK.Rewrite
 
             // IntPtr ptr;
             var variable_name = parameter.Name + " _sb_ptr";
-            body.Variables.Add(new VariableDefinition(variable_name, TypeIntPtr));
+            body.Variables.Add(new VariableDefinition(variable_name, IntPtrReference));
             int index = body.Variables.Count - 1;
 
             // ptr = Marshal.AllocHGlobal(sb.Capacity + 1);
@@ -609,7 +632,7 @@ namespace OpenTK.Rewrite
 
             // IntPtr ptr;
             var variable_name = parameter.Name + "_string_ptr";
-            body.Variables.Add(new VariableDefinition(variable_name, TypeIntPtr));
+            body.Variables.Add(new VariableDefinition(variable_name, IntPtrReference));
             int index = body.Variables.Count - 1;
 
             // ptr = Marshal.StringToHGlobalAnsi(str);
@@ -644,7 +667,7 @@ namespace OpenTK.Rewrite
 
             // IntPtr ptr;
             var variable_name = parameter.Name + "_string_array_ptr";
-            body.Variables.Add(new VariableDefinition(variable_name, TypeIntPtr));
+            body.Variables.Add(new VariableDefinition(variable_name, IntPtrReference));
             int index = body.Variables.Count - 1;
 
             // ptr = MarshalStringArrayToPtr(strings);
@@ -819,7 +842,7 @@ namespace OpenTK.Rewrite
                         else
                         {
                             var get_length = method.Module.Import(
-                                mscorlib.MainModule.GetType("System.Array").Methods.First(m => m.Name == "get_Length"));
+                                coreAssembly.MainModule.GetType("System.Array").Methods.First(m => m.Name == "get_Length"));
                             il.Emit(OpCodes.Callvirt, get_length);
                         }
                         il.Emit(OpCodes.Brtrue, pin);
@@ -845,7 +868,7 @@ namespace OpenTK.Rewrite
                             MethodReference get_address = new MethodReference("Address", t_ref, array);
                             for (int r = 0; r < array.Rank; r++)
                             {
-                                get_address.Parameters.Add(new ParameterDefinition(TypeInt32));
+                                get_address.Parameters.Add(new ParameterDefinition(Int32Reference));
                             }
                             get_address.HasThis = true;
 

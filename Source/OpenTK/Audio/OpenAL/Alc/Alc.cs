@@ -327,7 +327,7 @@ namespace OpenTK.Audio.OpenAL
             }
             else
             {
-                Debug.Print("[Audio] Alc.GetString({0}, {1}) returned null.",
+                Debug.WriteLine("[Audio] Alc.GetString({0}, {1}) returned null.",
                     device, param);
             }
 

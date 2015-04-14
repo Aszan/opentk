@@ -78,7 +78,7 @@ namespace OpenTK.Platform.X11
         static API()
         {
             int has_threaded_x = Functions.XInitThreads();
-            Debug.Print("Initializing threaded X11: {0}.", has_threaded_x.ToString());
+            Debug.WriteLine("Initializing threaded X11: {0}.", has_threaded_x.ToString());
         
             defaultDisplay = Functions.XOpenDisplay(IntPtr.Zero);
                 
@@ -89,7 +89,7 @@ namespace OpenTK.Platform.X11
             {
                 screenCount = Functions.XScreenCount(DefaultDisplay);
             }
-            Debug.Print("Display connection: {0}, Screen count: {1}", DefaultDisplay, ScreenCount);
+            Debug.WriteLine("Display connection: {0}, Screen count: {1}", DefaultDisplay, ScreenCount);
 
             //AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
         }

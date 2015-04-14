@@ -98,7 +98,7 @@ namespace OpenTK.Platform
         {
             if (!TryRemove(id))
             {
-                Debug.Print("Invalid DeviceCollection<{0}> id: {1}", typeof(T).FullName, id);
+                Debug.WriteLine("Invalid DeviceCollection<{0}> id: {1}", typeof(T).FullName, id);
             }
         }
 

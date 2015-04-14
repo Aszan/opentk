@@ -74,7 +74,7 @@ namespace OpenTK.Platform.Windows
         INativeWindow ConstructMessageWindow()
         {
             Debug.WriteLine("Initializing input driver.");
-            Debug.Indent();
+            Mocks.DebugIndent();
 
             // Create a new message-only window to retrieve WM_INPUT messages.
             INativeWindow native = new NativeWindow();
@@ -83,7 +83,7 @@ namespace OpenTK.Platform.Windows
             Functions.SetParent(parent.Handle, Constants.MESSAGE_ONLY);
             native.ProcessEvents();
 
-            Debug.Unindent();
+            Mocks.DebugUnindent();
             return native;
         }
 
@@ -99,7 +99,7 @@ namespace OpenTK.Platform.Windows
 
             // Subclass the window to retrieve the events we are interested in.
             OldWndProc = Functions.SetWindowLong(Parent.Handle, WndProc);
-            Debug.Print("Input window attached to {0}", Parent);
+            Debug.WriteLine("Input window attached to {0}", Parent);
 
             InputReady.Set();
 
@@ -197,7 +197,7 @@ namespace OpenTK.Platform.Windows
 
         ~WinInputBase()
         {
-            Debug.Print("[Warning] Resource leaked: {0}.", this);
+            Debug.WriteLine("[Warning] Resource leaked: {0}.", this);
             Dispose(false);
         }
 

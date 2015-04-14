@@ -205,7 +205,7 @@ namespace OpenTK.Platform.MacOS
             classPtr = Cocoa.SendIntPtr(windowClass, Selector.Alloc);
             if (classPtr == IntPtr.Zero)
             {
-                Debug.Print("[Error] Failed to allocate window class.");
+                Debug.WriteLine("[Error] Failed to allocate window class.");
                 throw new PlatformException();
             }
 
@@ -213,7 +213,7 @@ namespace OpenTK.Platform.MacOS
             IntPtr windowPtr = Cocoa.SendIntPtr(classPtr, Selector.Get("initWithContentRect:styleMask:backing:defer:"), contentRect, (int)style, (int)bufferingType, defer);
             if (windowPtr == IntPtr.Zero)
             {
-                Debug.Print("[Error] Failed to initialize window with ({0}, {1}, {2}, {3}).",
+                Debug.WriteLine("[Error] Failed to initialize window with ({0}, {1}, {2}, {3}).",
                     contentRect, style, bufferingType, defer);
                 throw new PlatformException();
             }
@@ -225,7 +225,7 @@ namespace OpenTK.Platform.MacOS
             IntPtr viewPtr = Cocoa.SendIntPtr(windowPtr, Selector.Get("contentView"));
             if (viewPtr == IntPtr.Zero)
             {
-                Debug.Print("[Error] Failed to retrieve content view for window {0}.", windowPtr);
+                Debug.WriteLine("[Error] Failed to retrieve content view for window {0}.", windowPtr);
                 throw new PlatformException();
             }
 
@@ -240,7 +240,7 @@ namespace OpenTK.Platform.MacOS
             }
             else
             {
-                Debug.Print("[Error] Failed to initialize content view with frame {0}.", selBounds);
+                Debug.WriteLine("[Error] Failed to initialize content view with frame {0}.", selBounds);
                 throw new PlatformException();
             }
 
@@ -314,7 +314,7 @@ namespace OpenTK.Platform.MacOS
             }
             catch (Exception e)
             {
-                Debug.Print(e.ToString());
+                Debug.WriteLine(e.ToString());
             }
         }
 
@@ -344,7 +344,7 @@ namespace OpenTK.Platform.MacOS
             }
             catch (Exception ex)
             {
-                Debug.Print(ex.ToString());
+                Debug.WriteLine(ex.ToString());
             }
         }
 
@@ -358,7 +358,7 @@ namespace OpenTK.Platform.MacOS
             }
             catch (Exception e)
             {
-                Debug.Print(e.ToString());
+                Debug.WriteLine(e.ToString());
             }
         }
 
@@ -370,7 +370,7 @@ namespace OpenTK.Platform.MacOS
             }
             catch (Exception e)
             {
-                Debug.Print(e.ToString());
+                Debug.WriteLine(e.ToString());
             }
         }
 
@@ -382,7 +382,7 @@ namespace OpenTK.Platform.MacOS
             }
             catch (Exception e)
             {
-                Debug.Print(e.ToString());
+                Debug.WriteLine(e.ToString());
             }
         }
 
@@ -397,7 +397,7 @@ namespace OpenTK.Platform.MacOS
             }
             catch (Exception e)
             {
-                Debug.Print(e.ToString());
+                Debug.WriteLine(e.ToString());
             }
         }
 
@@ -411,7 +411,7 @@ namespace OpenTK.Platform.MacOS
             }
             catch (Exception e)
             {
-                Debug.Print(e.ToString());
+                Debug.WriteLine(e.ToString());
             }
         }
 
@@ -425,7 +425,7 @@ namespace OpenTK.Platform.MacOS
             }
             catch (Exception e)
             {
-                Debug.Print(e.ToString());
+                Debug.WriteLine(e.ToString());
             }
         }
 
@@ -450,7 +450,7 @@ namespace OpenTK.Platform.MacOS
             }
             catch (Exception e)
             {
-                Debug.Print(e.ToString());
+                Debug.WriteLine(e.ToString());
             }
 
             return false;
@@ -471,7 +471,7 @@ namespace OpenTK.Platform.MacOS
             }
             catch (Exception e)
             {
-                Debug.Print(e.ToString());
+                Debug.WriteLine(e.ToString());
             }
 
             return false;
@@ -517,7 +517,7 @@ namespace OpenTK.Platform.MacOS
             }
             catch (Exception e)
             {
-                Debug.Print(e.ToString());
+                Debug.WriteLine(e.ToString());
             }
         }
 
@@ -763,7 +763,7 @@ namespace OpenTK.Platform.MacOS
                         }
                         else
                         {
-                            Debug.Print("[Mac] Failed to create NSImage for {0}", value);
+                            Debug.WriteLine("[Mac] Failed to create NSImage for {0}", value);
                             return;
                         }
                     }
@@ -1063,7 +1063,7 @@ namespace OpenTK.Platform.MacOS
                     32);
             if (imgdata == IntPtr.Zero)
             {
-                Debug.Print("Failed to create NSBitmapImageRep with size ({0},{1]})",
+                Debug.WriteLine("Failed to create NSBitmapImageRep with size ({0},{1]})",
                     cursor.Width, cursor.Height);
                 return IntPtr.Zero;
             }
@@ -1097,7 +1097,7 @@ namespace OpenTK.Platform.MacOS
                     new SizeF(cursor.Width, cursor.Height));
             if (img == IntPtr.Zero)
             {
-                Debug.Print("Failed to construct NSImage from NSBitmapImageRep");
+                Debug.WriteLine("Failed to construct NSImage from NSBitmapImageRep");
                 Cocoa.SendVoid(imgdata, Selector.Release);
                 return IntPtr.Zero;
             }
@@ -1166,7 +1166,7 @@ namespace OpenTK.Platform.MacOS
             if (disposed)
                 return;
 
-            Debug.Print("Disposing of CocoaNativeWindow (disposing={0}).", disposing);
+            Debug.WriteLine("Disposing of CocoaNativeWindow (disposing={0}).", disposing);
 
             if (!NSApplication.IsUIThread)
                 return;
@@ -1188,12 +1188,12 @@ namespace OpenTK.Platform.MacOS
                     trackingArea = IntPtr.Zero;
                 }
 
-                Debug.Print("[Mac] Disposing {0}", windowInfo);
+                Debug.WriteLine("[Mac] Disposing {0}", windowInfo);
                 windowInfo.Dispose();
             }
             else
             {
-                Debug.Print("{0} leaked, did you forget to call Dispose()?", GetType().FullName);
+                Debug.WriteLine("{0} leaked, did you forget to call Dispose()?", GetType().FullName);
             }
 
             disposed = true;

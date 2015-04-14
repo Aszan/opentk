@@ -200,7 +200,7 @@ namespace OpenTK.Platform.SDL2
             }
             catch (Exception ex)
             {
-                Debug.Print(ex.ToString());
+                Debug.WriteLine(ex.ToString());
             }
 
             return processed ? 0 : 1;
@@ -369,7 +369,7 @@ namespace OpenTK.Platform.SDL2
                     break;
 
                 default:
-                    Debug.Print("SDL2 unhandled event: {0}", e.Type);
+                    Debug.WriteLine("SDL2 unhandled event: {0}", e.Type);
                     break;
             }
         }
@@ -500,7 +500,7 @@ namespace OpenTK.Platform.SDL2
 
                                     if (cursor_surface == IntPtr.Zero)
                                     {
-                                        Debug.Print("[SDL2] Failed to create cursor surface. Error: {0}",
+                                        Debug.WriteLine("[SDL2] Failed to create cursor surface. Error: {0}",
                                             SDL.GetError());
                                         return;
                                     }
@@ -508,7 +508,7 @@ namespace OpenTK.Platform.SDL2
                                     sdl_cursor = SDL.CreateColorCursor(cursor_surface, value.X, value.Y);
                                     if (sdl_cursor == IntPtr.Zero)
                                     {
-                                        Debug.Print("[SDL2] Failed to create cursor. Error: {0}",
+                                        Debug.WriteLine("[SDL2] Failed to create cursor. Error: {0}",
                                             SDL.GetError());
                                         return;
                                     }
@@ -537,7 +537,7 @@ namespace OpenTK.Platform.SDL2
             {
                 if (Exists && !must_destroy && !is_in_closing_event)
                 {
-                    Debug.Print("SDL2 closing window {0}", window.Handle);
+                    Debug.WriteLine("SDL2 closing window {0}", window.Handle);
 
                     Event e = new Event();
                     e.Type = EventType.WINDOWEVENT;
@@ -742,7 +742,7 @@ namespace OpenTK.Platform.SDL2
 
                                     if (!success)
                                     {
-                                            Debug.Print("SDL2 failed to enter fullscreen mode: {0}", SDL.GetError());
+                                            Debug.WriteLine("SDL2 failed to enter fullscreen mode: {0}", SDL.GetError());
                                     }
 
                                     SDL.RaiseWindow(window.Handle);
@@ -939,7 +939,7 @@ namespace OpenTK.Platform.SDL2
                 {
                     if (manual)
                     {
-                        Debug.Print("Disposing {0}", GetType());
+                        Debug.WriteLine("Disposing {0}", GetType());
 
                         if (Exists)
                         {

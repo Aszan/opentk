@@ -366,7 +366,7 @@ namespace OpenTK.Platform.Linux
                 case EvdevButton.BTN8:
                     return MouseButton.Button9;
                 default:
-                    Debug.Print("[Input] Unknown EvdevButton {0}", button);
+                    Debug.WriteLine("[Input] Unknown EvdevButton {0}", button);
                     return MouseButton.Left;
             }
         }
