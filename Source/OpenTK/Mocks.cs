@@ -12,8 +12,11 @@ namespace OpenTK
     {
         public static IntPtr MarshalGetHINSTANCE(Module m)
         {
-            return (IntPtr)typeof(Marshal).GetMethod("GetHINSTANCE", BindingFlags.Public | BindingFlags.Static).Invoke(null, new[] { m });
+            return GetModuleHandle(m.Name);
         }
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern IntPtr GetModuleHandle(string moduleName);
 
         public static void DebugIndent()
         {
