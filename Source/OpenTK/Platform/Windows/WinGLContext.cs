@@ -483,13 +483,16 @@ namespace OpenTK.Platform.Windows
         {
             if (Handle != ContextHandle.Zero)
             {
+#if !NETCORE
                 try
+#endif
                 {
                     // This will fail if the user calls Dispose() on thread X when the context is current on thread Y.
                     if (!Wgl.DeleteContext(Handle.Handle))
                         Debug.Print("Failed to destroy OpenGL context {0}. Error: {1}",
                             Handle.ToString(), Marshal.GetLastWin32Error());
                 }
+#if !NETCORE
                 catch (AccessViolationException e)
                 {
                     Debug.WriteLine("An access violation occured while destroying the OpenGL context. Please report at http://www.opentk.com.");
@@ -499,11 +502,12 @@ namespace OpenTK.Platform.Windows
                     Debug.Unindent();
                 }
                 Handle = ContextHandle.Zero;
+#endif
             }
         }
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
     }
 }

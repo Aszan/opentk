@@ -29,7 +29,9 @@
 
 using System;
 using System.Diagnostics;
+#if !MINIMAL
 using System.Drawing;
+#endif
 using System.Runtime.InteropServices;
 using OpenTK.Graphics;
 using OpenTK.Input;
@@ -99,7 +101,7 @@ namespace OpenTK.Platform.Linux
 
             Debug.Print("[KMS] Creating GBM surface on {0:x} with {1}x{2} {3} [{4}]",
                 gbm, width, height, format, usage);
-            IntPtr gbm_surface =  Gbm.CreateSurface(gbm,
+            IntPtr gbm_surface = Gbm.CreateSurface(gbm,
                     width, height, format, usage);
             if (gbm_surface == IntPtr.Zero)
             {
@@ -107,7 +109,7 @@ namespace OpenTK.Platform.Linux
             }
 
             window.Handle = gbm_surface;
-                Debug.Print("[KMS] Created GBM surface {0:x}", window.Handle);
+            Debug.Print("[KMS] Created GBM surface {0:x}", window.Handle);
 
             window.CreateWindowSurface(mode.Index.Value);
             Debug.Print("[KMS] Created EGL surface {0:x}", window.Surface);

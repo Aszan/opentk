@@ -30,7 +30,9 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+#if !MINIMAL
 using System.Drawing;
+#endif
 using System.Runtime.InteropServices;
 using System.Threading;
 using OpenTK.Graphics;
@@ -132,7 +134,7 @@ namespace OpenTK.Platform.MacOS
         private bool disposed = false;
         private bool exists;
         private bool cursorVisible = true;
-        private System.Drawing.Icon icon;
+        private Icon icon;
         private WindowBorder windowBorder = WindowBorder.Resizable;
         private Nullable<WindowBorder> deferredWindowBorder;
         private Nullable<WindowBorder> previousWindowBorder;
@@ -197,7 +199,7 @@ namespace OpenTK.Platform.MacOS
                         Cocoa.SendIntPtr(Class.Get("NSScreen"), Selector.Get("screens")),
                         Selector.Get("objectAtIndex:"), 0),
                     Selector.Get("frame"));
-            var contentRect = new System.Drawing.RectangleF(x, screenRect.Height - height - y, width, height);
+            var contentRect = new RectangleF(x, screenRect.Height - height - y, width, height);
             var style = GetStyleMask(windowBorder);
             var bufferingType = NSBackingStore.Buffered;
 
@@ -477,18 +479,18 @@ namespace OpenTK.Platform.MacOS
             return false;
         }
 
-        private bool AcceptsFirstResponder(IntPtr self, IntPtr cmd) 
-        { 
-            return true; 
-        }
-
-        private bool CanBecomeKeyWindow(IntPtr self, IntPtr cmd) 
-        { 
+        private bool AcceptsFirstResponder(IntPtr self, IntPtr cmd)
+        {
             return true;
         }
 
-        private bool CanBecomeMainWindow(IntPtr self, IntPtr cmd) 
-        { 
+        private bool CanBecomeKeyWindow(IntPtr self, IntPtr cmd)
+        {
+            return true;
+        }
+
+        private bool CanBecomeMainWindow(IntPtr self, IntPtr cmd)
+        {
             return true;
         }
 
@@ -727,7 +729,7 @@ namespace OpenTK.Platform.MacOS
             }
         }
 
-        public override System.Drawing.Point PointToClient(System.Drawing.Point point)
+        public override Point PointToClient(Point point)
         {
             var r =
                 Cocoa.SendRect(windowInfo.ViewHandle, selConvertRectToBacking,
@@ -736,7 +738,7 @@ namespace OpenTK.Platform.MacOS
             return new Point((int)r.X, (int)(Height - r.Y));
         }
 
-        public override System.Drawing.Point PointToScreen(System.Drawing.Point point)
+        public override Point PointToScreen(Point point)
         {
             var r =
                 Cocoa.SendRect(windowInfo.Handle, selConvertRectToScreen,
@@ -745,7 +747,7 @@ namespace OpenTK.Platform.MacOS
             return new Point((int)r.X, (int)(GetCurrentScreenFrame().Height - r.Y));
         }
 
-        public override System.Drawing.Icon Icon
+        public override Icon Icon
         {
             get { return icon; }
             set
@@ -936,8 +938,8 @@ namespace OpenTK.Platform.MacOS
 
         public override WindowBorder WindowBorder
         {
-            get 
-            { 
+            get
+            {
                 return windowBorder;
             }
             set
@@ -975,7 +977,7 @@ namespace OpenTK.Platform.MacOS
             return (NSWindowStyle)0;
         }
 
-        public override System.Drawing.Rectangle Bounds
+        public override Rectangle Bounds
         {
             get
             {
@@ -998,7 +1000,7 @@ namespace OpenTK.Platform.MacOS
             }
         }
 
-        private System.Drawing.RectangleF InternalBounds
+        private RectangleF InternalBounds
         {
             get
             {
@@ -1010,17 +1012,17 @@ namespace OpenTK.Platform.MacOS
             }
         }
 
-        public override System.Drawing.Size ClientSize
+        public override Size ClientSize
         {
-            get 
+            get
             {
                 var contentViewBounds = Cocoa.SendRect(windowInfo.ViewHandle, selBounds);
                 var bounds = Cocoa.SendRect(windowInfo.Handle, selConvertRectToBacking, contentViewBounds);
-                return new Size((int)bounds.Width, (int)bounds.Height); 
+                return new Size((int)bounds.Width, (int)bounds.Height);
             }
             set
             {
-                var r_scaled = Cocoa.SendRect(windowInfo.Handle, selConvertRectFromBacking, new RectangleF(PointF.Empty, value));
+                var r_scaled = Cocoa.SendRect(windowInfo.Handle, selConvertRectFromBacking, new RectangleF(PointF.Empty, new SizeF(value.Width, value.Height)));
                 var r = Cocoa.SendRect(windowInfo.Handle, selFrameRectForContentRect, r_scaled);
                 Size = new Size((int)r.Width, (int)r.Height);
             }
@@ -1090,7 +1092,7 @@ namespace OpenTK.Platform.MacOS
             }
 
             // Construct the actual NSImage
-            IntPtr img = 
+            IntPtr img =
                 Cocoa.SendIntPtr(
                     Cocoa.SendIntPtr(NSImage, Selector.Alloc),
                     selInitWithSize,

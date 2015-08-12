@@ -196,7 +196,11 @@ namespace OpenTK.Platform.X11
                         }
                     }
                 }
+#if NETCORE
+                catch (Exception)
+#else
                 catch (EntryPointNotFoundException)
+#endif
                 {
                     Debug.Print("Function glXChooseFBConfig not supported.");
                 }
@@ -274,6 +278,6 @@ namespace OpenTK.Platform.X11
             }
         }
 
-        #endregion
+#endregion
     }
 }

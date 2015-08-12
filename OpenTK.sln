@@ -1,6 +1,6 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2012
-VisualStudioVersion = 12.0.21005.1
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTK", "Source\OpenTK\OpenTK.csproj", "{A37A7E14-0000-0000-0000-000000000000}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -78,6 +78,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.API.Desktop", "Source\
 	ProjectSection(ProjectDependencies) = postProject
 		{75DC22B1-113F-4A66-96B9-2FF8208C10E8} = {75DC22B1-113F-4A66-96B9-2FF8208C10E8}
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".NETCore", ".NETCore", "{5BD666B3-8BD0-4777-9747-FE89C3147EE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTK.NETCore", "Source\OpenTK\OpenTK.NETCore.csproj", "{A3CB23C5-AF7C-4019-8A63-5ABE79B261B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -171,9 +175,20 @@ Global
 		{C4DDD20F-CB4E-43F4-A75C-4A3D668E1F99}.Nsis|Any CPU.Build.0 = Release|Any CPU
 		{C4DDD20F-CB4E-43F4-A75C-4A3D668E1F99}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4DDD20F-CB4E-43F4-A75C-4A3D668E1F99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3CB23C5-AF7C-4019-8A63-5ABE79B261B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3CB23C5-AF7C-4019-8A63-5ABE79B261B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3CB23C5-AF7C-4019-8A63-5ABE79B261B3}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3CB23C5-AF7C-4019-8A63-5ABE79B261B3}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{A3CB23C5-AF7C-4019-8A63-5ABE79B261B3}.Nsis|Any CPU.ActiveCfg = Release|Any CPU
+		{A3CB23C5-AF7C-4019-8A63-5ABE79B261B3}.Nsis|Any CPU.Build.0 = Release|Any CPU
+		{A3CB23C5-AF7C-4019-8A63-5ABE79B261B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3CB23C5-AF7C-4019-8A63-5ABE79B261B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A3CB23C5-AF7C-4019-8A63-5ABE79B261B3} = {5BD666B3-8BD0-4777-9747-FE89C3147EE3}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Source\Examples\OpenTK.Examples.csproj

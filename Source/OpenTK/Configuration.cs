@@ -281,11 +281,15 @@ namespace OpenTK
 
         static bool DetectWindows()
         {
+#if NETCORE
+            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+#else
             return
                 System.Environment.OSVersion.Platform == PlatformID.Win32NT ||
                 System.Environment.OSVersion.Platform == PlatformID.Win32S ||
                 System.Environment.OSVersion.Platform == PlatformID.Win32Windows ||
                 System.Environment.OSVersion.Platform == PlatformID.WinCE;
+#endif
         }
 
         static bool DetectX11()
@@ -295,13 +299,13 @@ namespace OpenTK
             catch { return false; }
         }
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region Internal Methods
+#region Internal Methods
 
         // Detects the underlying OS and runtime.
         internal static void Init(ToolkitOptions options)
@@ -344,6 +348,6 @@ namespace OpenTK
             }
         }
 
-        #endregion
+#endregion
     }
 }

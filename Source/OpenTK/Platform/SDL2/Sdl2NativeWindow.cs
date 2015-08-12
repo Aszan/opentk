@@ -28,7 +28,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+#if !MINIMAL
 using System.Drawing;
+#endif
 #if ANDROID || IPHONE || MINIMAL
 using OpenTK.Minimal;
 #else
@@ -742,7 +744,7 @@ namespace OpenTK.Platform.SDL2
 
                                     if (!success)
                                     {
-                                            Debug.Print("SDL2 failed to enter fullscreen mode: {0}", SDL.GetError());
+                                        Debug.Print("SDL2 failed to enter fullscreen mode: {0}", SDL.GetError());
                                     }
 
                                     SDL.RaiseWindow(window.Handle);

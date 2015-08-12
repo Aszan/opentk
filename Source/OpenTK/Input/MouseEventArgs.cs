@@ -28,7 +28,9 @@
 #endregion
 
 using System;
+#if !MINIMAL
 using System.Drawing;
+#endif
 
 namespace OpenTK.Input
 {
@@ -44,13 +46,13 @@ namespace OpenTK.Input
     /// </remarks>
     public class MouseEventArgs : EventArgs
     {
-        #region Fields
+#region Fields
 
         MouseState state;
 
-        #endregion
+#endregion
 
-        #region Constructors
+#region Constructors
 
         /// <summary>
         /// Constructs a new instance.
@@ -81,9 +83,9 @@ namespace OpenTK.Input
         {
         }
 
-        #endregion
+#endregion
 
-        #region Protected Members
+#region Protected Members
 
         internal void SetButton(MouseButton button, ButtonState state)
         {
@@ -112,9 +114,9 @@ namespace OpenTK.Input
                 ButtonState.Pressed : ButtonState.Released;
         }
 
-        #endregion
+#endregion
 
-        #region Public Members
+#region Public Members
 
         /// <summary>
         /// Gets the X position of the mouse for the event.
@@ -148,7 +150,7 @@ namespace OpenTK.Input
             internal set { state = value; }
         }
 
-        #endregion
+#endregion
     }
 
     /// <summary>
@@ -163,13 +165,13 @@ namespace OpenTK.Input
     /// </remarks>
     public class MouseMoveEventArgs : MouseEventArgs
     {
-        #region Fields
+#region Fields
 
         int x_delta, y_delta;
 
-        #endregion
+#endregion
 
-        #region Constructors
+#region Constructors
 
         /// <summary>
         /// Constructs a new <see cref="MouseMoveEventArgs"/> instance.
@@ -199,9 +201,9 @@ namespace OpenTK.Input
         {
         }
 
-        #endregion
+#endregion
 
-        #region Public Members
+#region Public Members
 
         /// <summary>
         /// Gets the change in X position produced by this event.
@@ -213,7 +215,7 @@ namespace OpenTK.Input
         /// </summary>
         public int YDelta { get { return y_delta; } internal set { y_delta = value; } }
 
-        #endregion
+#endregion
     }
 
     /// <summary>
@@ -228,13 +230,13 @@ namespace OpenTK.Input
     /// </remarks>
     public class MouseButtonEventArgs : MouseEventArgs
     {
-        #region Fields
+#region Fields
 
         MouseButton button;
 
-        #endregion
+#endregion
 
-        #region Constructors
+#region Constructors
 
         /// <summary>
         /// Constructs a new <see cref="MouseButtonEventArgs"/> instance.
@@ -264,9 +266,9 @@ namespace OpenTK.Input
         {
         }
 
-        #endregion
+#endregion
 
-        #region Public Members
+#region Public Members
 
         /// <summary>
         /// Gets the <see cref="MouseButton"/> that triggered this event.
@@ -282,7 +284,7 @@ namespace OpenTK.Input
             internal set { SetButton(Button, value ? ButtonState.Pressed : ButtonState.Released); }
         }
 
-        #endregion
+#endregion
     }
 
     /// <summary>
@@ -297,13 +299,13 @@ namespace OpenTK.Input
     /// </remarks>
     public class MouseWheelEventArgs : MouseEventArgs
     {
-        #region Fields
+#region Fields
 
         float delta;
 
-        #endregion
+#endregion
 
-        #region Constructors
+#region Constructors
 
         /// <summary>
         /// Constructs a new <see cref="MouseWheelEventArgs"/> instance.
@@ -333,9 +335,9 @@ namespace OpenTK.Input
         {
         }
 
-        #endregion
+#endregion
 
-        #region Public Members
+#region Public Members
 
         /// <summary>
         /// Gets the value of the wheel in integer units.
@@ -362,7 +364,7 @@ namespace OpenTK.Input
         /// </summary>
         public float DeltaPrecise { get { return delta; } internal set { delta = value; } }
 
-        #endregion
+#endregion
     }
 }
 

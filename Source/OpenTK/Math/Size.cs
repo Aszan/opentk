@@ -31,7 +31,7 @@ using System.Text;
 
 namespace OpenTK
 {
-#if NO_SYSDRAWING
+#if MINIMAL
     /// <summary>
     /// Stores the width and height of a rectangle.
     /// </summary>
@@ -130,48 +130,6 @@ namespace OpenTK
         }
 
         /// <summary>
-        /// Converts an OpenTK.Size instance to a System.Drawing.Size.
-        /// </summary>
-        /// <param name="size">
-        /// The <see cref="Size"/> instance to convert.
-        /// </param>
-        /// <returns>
-        /// A <see cref="System.Drawing.Size"/> instance equivalent to size.
-        /// </returns>
-        public static implicit operator System.Drawing.Size(Size size)
-{
-            return new System.Drawing.Size(size.Width, size.Height);
-        }
-
-        /// <summary>
-        /// Converts a System.Drawing.Size instance to an OpenTK.Size.
-        /// </summary>
-        /// <param name="size">
-        /// The <see cref="System.Drawing.Size"/> instance to convert.
-        /// </param>
-        /// <returns>
-        /// A <see cref="Size"/> instance equivalent to size.
-        /// </returns>
-        public static implicit operator Size(System.Drawing.Size size)
-        {
-            return new Size(size.Width, size.Height);
-        }
-
-        /// <summary>
-        /// Converts an OpenTK.Point instance to a System.Drawing.SizeF.
-        /// </summary>
-        /// <param name="size">
-        /// The <see cref="Size"/> instance to convert.
-        /// </param>
-        /// <returns>
-        /// A <see cref="System.Drawing.SizeF"/> instance equivalent to size.
-        /// </returns>
-        public static implicit operator System.Drawing.SizeF(Size size)
-        {
-            return new System.Drawing.SizeF(size.Width, size.Height);
-         }
-
-        /// <summary>
         /// Indicates whether this instance is equal to the specified object.
         /// </summary>
         /// <param name="obj">The object instance to compare to.</param>
@@ -180,7 +138,7 @@ namespace OpenTK
         {
             if (obj is Size)
                 return Equals((Size)obj);
-            
+
             return false;
         }
 
@@ -215,7 +173,7 @@ namespace OpenTK
         {
             return Width == other.Width && Height == other.Height;
         }
-        
+
         #endregion
     }
 #endif

@@ -1,37 +1,37 @@
 #region License
- //
- // The Open Toolkit Library License
- //
- // Copyright (c) 2006 - 2009 the Open Toolkit library.
- //
- // Permission is hereby granted, free of charge, to any person obtaining a copy
- // of this software and associated documentation files (the "Software"), to deal
- // in the Software without restriction, including without limitation the rights to 
- // use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
- // the Software, and to permit persons to whom the Software is furnished to do
- // so, subject to the following conditions:
- //
- // The above copyright notice and this permission notice shall be included in all
- // copies or substantial portions of the Software.
- //
- // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
- // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- // NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- // HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- // OTHER DEALINGS IN THE SOFTWARE.
- //
- #endregion
- 
+//
+// The Open Toolkit Library License
+//
+// Copyright (c) 2006 - 2009 the Open Toolkit library.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights to 
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+// the Software, and to permit persons to whom the Software is furnished to do
+// so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+//
+#endregion
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace OpenTK
 {
-#if NO_SYSDRAWING
+#if MINIMAL
     /// <summary>
     /// Represents a rectangular region on a two-dimensional plane.
     /// </summary>
@@ -57,7 +57,7 @@ namespace OpenTK
             Location = location;
             Size = size;
         }
-        
+
         /// <summary>
         /// Constructs a new Rectangle instance.
         /// </summary>
@@ -79,7 +79,7 @@ namespace OpenTK
         public int X
         {
             get { return Location.X; }
-            set { Location = new Point (value, Y); }
+            set { Location = new Point(value, Y); }
         }
 
         /// <summary>
@@ -88,16 +88,16 @@ namespace OpenTK
         public int Y
         {
             get { return Location.Y; }
-            set { Location = new Point (X, value); }
+            set { Location = new Point(X, value); }
         }
 
         /// <summary>
         /// Gets or sets the width of the Rectangle.
         /// </summary>
         public int Width
-        { 
+        {
             get { return Size.Width; }
-            set { Size = new Size (value, Height); }
+            set { Size = new Size(value, Height); }
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace OpenTK
         /// Gets a <see cref="System.Boolean"/> that indicates whether this
         /// Rectangle is equal to the empty Rectangle.
         /// </summary>
-        public bool IsEmpty 
+        public bool IsEmpty
         {
             get { return Location.IsEmpty && Size.IsEmpty; }
         }
@@ -182,6 +182,20 @@ namespace OpenTK
         }
 
         /// <summary>
+        /// Tests whether this instance contains the specified x, y coordinates.
+        /// </summary>
+        /// <param name="x">The x coordinate to test.</param>
+        /// <param name="y">The y coordinate to test.</param>
+        /// <returns>True if this instance contains the x, y coordinates; false otherwise.</returns>
+        /// <remarks>The left and top edges are inclusive. The right and bottom edges
+        /// are exclusive.</remarks>
+        public bool Contains(int x, int y)
+        {
+            return x >= Left && x < Right &&
+                y >= Top && y < Bottom;
+        }
+
+        /// <summary>
         /// Tests whether this instance contains the specified Point.
         /// </summary>
         /// <param name="point">The <see cref="Point"/> to test.</param>
@@ -190,7 +204,7 @@ namespace OpenTK
         /// are exclusive.</remarks>
         public bool Contains(Point point)
         {
-            return point.X >= Left && point.X < Right && 
+            return point.X >= Left && point.X < Right &&
                 point.Y >= Top && point.Y < Bottom;
         }
 
@@ -229,45 +243,18 @@ namespace OpenTK
         }
 
         /// <summary>
-        /// Converts an OpenTK.Rectangle instance to a System.Drawing.Rectangle.
+        /// Union the specified a and b.
         /// </summary>
-        /// <param name="rect">
-        /// The <see cref="Rectangle"/> instance to convert.
-        /// </param>
-        /// <returns>
-        /// A <see cref="System.Drawing.Rectangle"/> instance equivalent to rect.
-        /// </returns>
-        public static implicit operator System.Drawing.Rectangle(Rectangle rect)
+        /// <param name="a">The alpha component.</param>
+        /// <param name="b">The blue component.</param>
+        public static Rectangle Union(Rectangle a, Rectangle b)
         {
-            return new System.Drawing.Rectangle(rect.Location, rect.Size);
-        }
+            int x1 = Math.Min(a.X, b.X);
+            int x2 = Math.Max(a.X + a.Width, b.X + b.Width);
+            int y1 = Math.Min(a.Y, b.Y);
+            int y2 = Math.Max(a.Y + a.Height, b.Y + b.Height);
 
-        /// <summary>
-        /// Converts a System.Drawing.Rectangle instance to an OpenTK.Rectangle.
-        /// </summary>
-        /// <param name="rect">
-        /// The <see cref="System.Drawing.Rectangle"/> instance to convert.
-        /// </param>
-        /// <returns>
-        /// A <see cref="Rectangle"/> instance equivalent to point.
-        /// </returns>
-        public static implicit operator Rectangle(System.Drawing.Rectangle rect)
-        {
-            return new Rectangle(rect.Location, rect.Size);
-        }
-
-        /// <summary>
-        /// Converts an OpenTK.Rectangle instance to a System.Drawing.RectangleF.
-        /// </summary>
-        /// <param name="rect">
-        /// The <see cref="Rectangle"/> instance to convert.
-        /// </param>
-        /// <returns>
-        /// A <see cref="System.Drawing.RectangleF"/> instance equivalent to rect.
-        /// </returns>
-        public static implicit operator System.Drawing.RectangleF(Rectangle rect)
-        {
-            return new System.Drawing.RectangleF(rect.Location, rect.Size);
+            return new Rectangle(x1, y1, x2 - x1, y2 - y1);
         }
 
         /// <summary>

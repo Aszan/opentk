@@ -27,6 +27,8 @@
 
 using System;
 
+#if !NETCORE
+
 namespace OpenTK
 {
 
@@ -58,3 +60,5 @@ namespace OpenTK
         }
     }
 }
+
+#endif

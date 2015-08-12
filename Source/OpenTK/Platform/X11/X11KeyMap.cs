@@ -54,6 +54,9 @@ namespace OpenTK.Platform.X11
         // on the current keyboard layout.
         internal void RefreshKeycodes(IntPtr display)
         {
+#if NETCORE
+            throw new NotImplementedException();
+#else
             // Approach inspired by GLFW: http://www.glfw.org/
             // Huge props to the GLFW team! 
             if (xkb_supported)
@@ -256,6 +259,7 @@ namespace OpenTK.Platform.X11
                     }
                 }
             }
+#endif
         }
 
         static Key TranslateXKey(XKey key)

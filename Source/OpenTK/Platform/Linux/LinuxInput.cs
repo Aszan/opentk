@@ -30,7 +30,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+#if !MINIMAL
 using System.Drawing;
+#endif
 using System.Runtime.InteropServices;
 using System.Threading;
 using OpenTK.Input;
@@ -214,7 +216,7 @@ namespace OpenTK.Platform.Linux
         }
 
         static OpenRestrictedCallback OpenRestricted = OpenRestrictedHandler;
-        static int OpenRestrictedHandler(IntPtr path, int flags, IntPtr data) 
+        static int OpenRestrictedHandler(IntPtr path, int flags, IntPtr data)
         {
             int fd = Libc.open(path, (OpenFlags)flags);
             Debug.Print("[Input] Opening '{0}' with flags {1}. fd:{2}",

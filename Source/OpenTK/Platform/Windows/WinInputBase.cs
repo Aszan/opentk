@@ -58,18 +58,20 @@ namespace OpenTK.Platform.Windows
             WndProc = WindowProcedure;
 
             InputThread = new Thread(ProcessEvents);
+#if !NETCORE
             InputThread.SetApartmentState(ApartmentState.STA);
+#endif
             InputThread.IsBackground = true;
             InputThread.Start();
 
             InputReady.WaitOne();
         }
 
-        #endregion
+#endregion
 
-        #region Private Members
+#region Private Members
 
-        #region ConstructMessageWindow
+#region ConstructMessageWindow
 
         INativeWindow ConstructMessageWindow()
         {
@@ -88,9 +90,9 @@ namespace OpenTK.Platform.Windows
         }
 
 
-        #endregion
+#endregion
 
-        #region ProcessEvents
+#region ProcessEvents
 
         void ProcessEvents()
         {
@@ -119,9 +121,9 @@ namespace OpenTK.Platform.Windows
             }
         }
 
-        #endregion
+#endregion
 
-        #region WndProcHandler
+#region WndProcHandler
 
         IntPtr WndProcHandler(
             IntPtr handle, WindowMessage message, IntPtr wParam, IntPtr lParam)
@@ -133,13 +135,13 @@ namespace OpenTK.Platform.Windows
                 return ret;
         }
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region Protected Members
+#region Protected Members
 
-        #region WindowProcedure
+#region WindowProcedure
 
         protected virtual IntPtr WindowProcedure(
             IntPtr handle, WindowMessage message, IntPtr wParam, IntPtr lParam)
@@ -147,18 +149,18 @@ namespace OpenTK.Platform.Windows
             return Unhandled;
         }
 
-        #endregion
+#endregion
 
-        #region CreateDrivers
+#region CreateDrivers
 
         // Note: this method is called through the input thread.
         protected abstract void CreateDrivers();
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region Public Members
+#region Public Members
 
         public abstract IMouseDriver2 MouseDriver { get; }
 
@@ -166,9 +168,9 @@ namespace OpenTK.Platform.Windows
 
         public abstract IJoystickDriver2 JoystickDriver { get; }
 
-        #endregion
+#endregion
 
-        #region IDisposable Members
+#region IDisposable Members
 
         protected bool Disposed;
 
@@ -201,6 +203,6 @@ namespace OpenTK.Platform.Windows
             Dispose(false);
         }
 
-        #endregion
+#endregion
     }
 }

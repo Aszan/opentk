@@ -76,7 +76,10 @@ namespace OpenTK
     /// predictable results.
     /// </remarks>
     [Serializable, StructLayout(LayoutKind.Sequential)]
-    public struct Half : ISerializable, IComparable<Half>, IFormattable, IEquatable<Half>
+    public struct Half : IComparable<Half>, IFormattable, IEquatable<Half>
+#if !NETCORE
+        , ISerializable
+#endif
     {
         #region Internal Field
 
@@ -356,7 +359,7 @@ namespace OpenTK
         /// <returns>The result of the conversion.
         /// A <see cref="System.Single"/>
         /// </returns>
-        public static implicit operator float(Half h)
+        public static implicit operator float (Half h)
         {
             return h.ToSingle();
         }
@@ -370,7 +373,7 @@ namespace OpenTK
         /// <returns>The result of the conversion.
         /// A <see cref="System.Double"/>
         /// </returns>
-        public static implicit operator double(Half h)
+        public static implicit operator double (Half h)
         {
             return (double)h.ToSingle();
         }
@@ -396,6 +399,7 @@ namespace OpenTK
 
         #endregion Constants
 
+#if !NETCORE
         #region ISerializable
 
         /// <summary>Constructor used by ISerializable to deserialize the object.</summary>
@@ -415,6 +419,7 @@ namespace OpenTK
         }
 
         #endregion ISerializable
+#endif
 
         #region Binary dump
 

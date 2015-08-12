@@ -97,8 +97,12 @@ namespace OpenTK.Platform
             MethodInfo load_delegate_method_info = type.GetMethod("LoadDelegate", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
             if (load_delegate_method_info == null)
                 throw new InvalidOperationException(type.ToString() + " does not contain a static LoadDelegate method.");
+#if NETCORE
+            LoadDelegateFunction LoadDelegate = (LoadDelegateFunction)load_delegate_method_info.CreateDelegate(typeof(LoadDelegateFunction));
+#else
             LoadDelegateFunction LoadDelegate = (LoadDelegateFunction)Delegate.CreateDelegate(
                 typeof(LoadDelegateFunction), load_delegate_method_info);
+#endif
 
             Debug.Write("Load extensions for " + type.ToString() + "... ");
 
@@ -124,9 +128,9 @@ namespace OpenTK.Platform
             time.Reset();
         }
 
-        #endregion
+#endregion
 
-        #region internal static bool TryLoadExtension(Type type, string extension)
+#region internal static bool TryLoadExtension(Type type, string extension)
 
         /// <internal />
         /// <summary>Loads the specified extension for the specified class. This function is intended
@@ -151,8 +155,14 @@ namespace OpenTK.Platform
                 return false;
             }
 
+#if NETCORE
+            LoadDelegateFunction LoadDelegate = (LoadDelegateFunction)type.GetMethod("LoadDelegate", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public)
+                .CreateDelegate(typeof(LoadDelegateFunction));
+#else
             LoadDelegateFunction LoadDelegate = (LoadDelegateFunction)Delegate.CreateDelegate(typeof(LoadDelegateFunction),
                 type.GetMethod("LoadDelegate", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public));
+#endif
+
             if (LoadDelegate == null)
             {
                 Debug.Print(type.ToString(), " does not contain a static LoadDelegate method.");
@@ -178,9 +188,9 @@ namespace OpenTK.Platform
             return @new != null;
         }
 
-        #endregion
+#endregion
 
-        #region CreateGetAddress
+#region CreateGetAddress
 
         internal static GraphicsContext.GetAddressDelegate CreateGetAddress()
         {
@@ -204,9 +214,9 @@ namespace OpenTK.Platform
             return loader;
         }
 
-        #endregion
+#endregion
 
-        #region --- Creating a Graphics Context ---
+#region --- Creating a Graphics Context ---
 
         /// <summary>
         /// Creates an IGraphicsContext instance for the specified window.
@@ -230,7 +240,7 @@ namespace OpenTK.Platform
             return context;
         }
 
-        #region CreateX11WindowInfo
+#region CreateX11WindowInfo
 
         /// <summary>
         /// Constructs a new IWindowInfo instance for the X11 platform.
@@ -252,9 +262,9 @@ namespace OpenTK.Platform
             return window;
         }
 
-        #endregion
+#endregion
 
-        #region CreateWindowsWindowInfo
+#region CreateWindowsWindowInfo
 
         /// <summary>
         /// Creates an IWindowInfo instance for the windows platform.
@@ -266,9 +276,9 @@ namespace OpenTK.Platform
             return new OpenTK.Platform.Windows.WinWindowInfo(windowHandle, null);
         }
 
-        #endregion
+#endregion
 
-        #region CreateMacOSCarbonWindowInfo
+#region CreateMacOSCarbonWindowInfo
 
         /// <summary>
         /// Creates an IWindowInfo instance for the Mac OS X platform.
@@ -297,9 +307,9 @@ namespace OpenTK.Platform
             return new OpenTK.Platform.MacOS.CarbonWindowInfo(windowHandle, false, isControl, xOffset, yOffset);
         }
 
-        #endregion
+#endregion
 
-        #region CreateMacOSWindowInfo
+#region CreateMacOSWindowInfo
 
         /// <summary>
         /// Creates an IWindowInfo instance for the Mac OS X platform.
@@ -323,9 +333,9 @@ namespace OpenTK.Platform
             return new OpenTK.Platform.MacOS.CocoaWindowInfo(windowHandle, viewHandle);
         }
 
-        #endregion
+#endregion
 
-        #region CreateDummyWindowInfo
+#region CreateDummyWindowInfo
 
         /// <summary>
         /// Creates an IWindowInfo instance for the dummy platform.
@@ -336,9 +346,9 @@ namespace OpenTK.Platform
             return new Dummy.DummyWindowInfo();
         }
 
-        #endregion
+#endregion
 
-        #region CreateSdl2WindowInfo
+#region CreateSdl2WindowInfo
 
         /// <summary>
         /// Creates an IWindowInfo instance for the windows platform.
@@ -351,11 +361,11 @@ namespace OpenTK.Platform
                 windowHandle, null);
         }
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region RelaxGraphicsMode
+#region RelaxGraphicsMode
 
         internal static bool RelaxGraphicsMode(ref GraphicsMode mode)
         {
@@ -461,6 +471,6 @@ namespace OpenTK.Platform
             return false;
         }
 
-        #endregion
+#endregion
     }
 }

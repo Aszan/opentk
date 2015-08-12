@@ -51,17 +51,21 @@ namespace OpenTK.Platform.Windows
 
         public WinFactory()
         {
+#if !NETCORE
             if (System.Environment.OSVersion.Version.Major <= 4)
             {
                 throw new PlatformNotSupportedException("OpenTK requires Windows XP or higher");
             }
+#endif
 
             // Dynamically load opengl32.dll in order to use the extension loading capabilities of Wgl.
             // Note: opengl32.dll must be loaded before gdi32.dll, otherwise strange failures may occur
             // (such as "error: 2000" when calling wglSetPixelFormat or slowness/lag on specific GPUs).
             LoadOpenGL();
 
+#if !NETCORE
             if (System.Environment.OSVersion.Version.Major >= 6)
+#endif
             {
                 if (Toolkit.Options.EnableHighResolution)
                 {
@@ -78,13 +82,13 @@ namespace OpenTK.Platform.Windows
             OpenGLHandle = Functions.LoadLibrary(OpenGLName);
             if (OpenGLHandle == IntPtr.Zero)
             {
-                throw new ApplicationException(String.Format("LoadLibrary(\"{0}\") call failed with code {1}",
+                throw new  ApplicationException(String.Format("LoadLibrary(\"{0}\") call failed with code {1}",
                     OpenGLName, Marshal.GetLastWin32Error()));
             }
             Debug.WriteLine(String.Format("Loaded opengl32.dll: {0}", OpenGLHandle));
         }
 
-        #region IPlatformFactory Members
+#region IPlatformFactory Members
 
         public override INativeWindow CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device)
         {
@@ -134,9 +138,9 @@ namespace OpenTK.Platform.Windows
             return RawInputDriver.JoystickDriver;
         }
 
-        #endregion
+#endregion
 
-        #region Private Members
+#region Private Members
 
         WinRawInput RawInputDriver
         {
@@ -153,9 +157,9 @@ namespace OpenTK.Platform.Windows
             }
         }
 
-        #endregion
+#endregion
 
-        #region IDisposable Members
+#region IDisposable Members
 
         protected override void Dispose(bool manual)
         {
@@ -175,6 +179,6 @@ namespace OpenTK.Platform.Windows
             }
         }
 
-        #endregion
+#endregion
     }
 }

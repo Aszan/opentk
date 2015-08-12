@@ -206,7 +206,11 @@ namespace OpenTK.Platform.SDL2
         {
             unsafe
             {
+#if NETCORE
+                throw new NotImplementedException();
+#else
                 return new string((sbyte*)GameControllerNameInternal(gamecontroller));
+#endif
             }
         }
 
@@ -222,7 +226,7 @@ namespace OpenTK.Platform.SDL2
         [DllImport(lib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "SDL_GameControllerOpen", ExactSpelling = true)]
         public static extern IntPtr GameControllerOpen(int joystick_index);
 
-        #endregion
+#endregion
 
         [SuppressUnmanagedCodeSecurity]
         [DllImport(lib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "SDL_GetDisplayBounds", ExactSpelling = true)]
@@ -338,7 +342,11 @@ namespace OpenTK.Platform.SDL2
         {
             unsafe
             {
+#if NETCORE
+                throw new NotImplementedException();
+#else
                 return new string((sbyte*)JoystickNameInternal(joystick));
+#endif
             }
         }
 
@@ -483,7 +491,7 @@ namespace OpenTK.Platform.SDL2
         [DllImport(lib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "SDL_WarpMouseInWindow", ExactSpelling = true)]
         public static extern void WarpMouseInWindow(IntPtr window, int x, int y);
 
-        #region SysWM
+#region SysWM
 
         /// <summary>
         /// Retrieves driver-dependent window information.
@@ -509,7 +517,7 @@ namespace OpenTK.Platform.SDL2
         [DllImport(lib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "SDL_GetWindowWMInfo", ExactSpelling = true)]
         static extern bool GetWindowWMInfoInternal(IntPtr window, ref SysWMInfo info);
 
-        #endregion
+#endregion
 
         public partial class GL
         {
@@ -578,17 +586,17 @@ namespace OpenTK.Platform.SDL2
             public static extern void SwapWindow(IntPtr window);
         }
 
-        #endregion
+#endregion
     }
 
-    #region Delegates
+#region Delegates
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     internal delegate int EventFilter(IntPtr userdata, IntPtr @event);
 
-    #endregion
+#endregion
 
-    #region Enums
+#region Enums
 
     enum Button : byte
     {
@@ -1347,9 +1355,9 @@ namespace OpenTK.Platform.SDL2
         ALLOW_HIGHDPI = 0x00002000,
     }
 
-    #endregion
+#endregion
 
-    #region Structs
+#region Structs
 
     struct ControllerAxisEvent
     {
@@ -1743,6 +1751,6 @@ namespace OpenTK.Platform.SDL2
         public Int32 Data2;
     }
 
-    #endregion
+#endregion
 }
 
