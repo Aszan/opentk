@@ -34,7 +34,10 @@ namespace OpenTK
     /// 4-component Vector of the Half type. Occupies 8 Byte total.
     /// </summary>
     [Serializable, StructLayout(LayoutKind.Sequential)]
-    public struct Vector4h : ISerializable, IEquatable<Vector4h>
+    public struct Vector4h : IEquatable<Vector4h>
+#if !NETCORE
+        , ISerializable
+#endif
     {
         #region Public Fields
 
@@ -702,6 +705,7 @@ namespace OpenTK
 
         #endregion Constants
 
+#if !NETCORE
         #region ISerializable
 
         /// <summary>Constructor used by ISerializable to deserialize the object.</summary>
@@ -727,6 +731,7 @@ namespace OpenTK
         }
 
         #endregion ISerializable
+#endif
 
         #region Binary dump
 

@@ -138,7 +138,7 @@ namespace OpenTK
         {
             if (obj is Size)
                 return Equals((Size)obj);
-            
+
             return false;
         }
 
@@ -173,7 +173,7 @@ namespace OpenTK
         {
             return Width == other.Width && Height == other.Height;
         }
-        
+
         #endregion
     }
 #endif

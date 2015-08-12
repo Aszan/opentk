@@ -282,7 +282,11 @@ namespace OpenTK.Platform.Windows
                 flags |= PixelFormatDescriptorFlags.STEREO;
             }
 
-            if (System.Environment.OSVersion.Version.Major >= 6 &&
+
+            if (
+#if !NETCORE
+                System.Environment.OSVersion.Version.Major >= 6 &&
+#endif
                 requested_acceleration_type != AccelerationType.None)
             {
                 // Request a compositor-capable mode when running on
@@ -333,9 +337,9 @@ namespace OpenTK.Platform.Windows
             return DescribePixelFormatPFD(device, ref pfd, best);
         }
 
-        #endregion
+#endregion
 
-        #region DescribePixelFormatPFD
+#region DescribePixelFormatPFD
 
         static GraphicsMode DescribePixelFormatPFD(IntPtr device, ref PixelFormatDescriptor pfd,
             int pixelformat)
@@ -356,9 +360,9 @@ namespace OpenTK.Platform.Windows
             return created_mode;
         }
 
-        #endregion
+#endregion
 
-        #region DescribePixelFormatARB
+#region DescribePixelFormatARB
 
         GraphicsMode DescribePixelFormatARB(IntPtr device, int pixelformat)
         {
@@ -422,8 +426,8 @@ namespace OpenTK.Platform.Windows
             return created_mode;
         }
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
     }
 }

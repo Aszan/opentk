@@ -776,6 +776,16 @@ namespace OpenTK
         {
             return IntPtr.Zero;
         }
+
+        internal static int GetPixelFormatSize(PixelFormat format)
+        {
+            return 0;
+        }
+
+        internal IntPtr GetHicon()
+        {
+            return IntPtr.Zero;
+        }
     }
 
     #endregion
@@ -785,7 +795,9 @@ namespace OpenTK
     /// <summary>
     /// Represents a color with 4 8bit components (R, G, B, A).
     /// </summary>
+#if !NETCORE
     [Serializable]
+#endif
     public struct Color : IEquatable<Color>
     {
         #region Fields
@@ -1677,7 +1689,7 @@ namespace OpenTK
         Format32bppArgb
     }
 
-    enum ImageFormat {
+    {
         Png
     }
 
@@ -1716,5 +1728,22 @@ namespace OpenTK.Minimal
     #endregion
 }
 
+#region .NET Core-specific
+
+namespace System
+{
+    public class ApplicationException : Exception
+    {
+        public ApplicationException(string message) : base(message) { }
+    }
+    internal class SerializableAttribute : Attribute { }
+}
+
+namespace System.Security
+{
+    internal class SuppressUnmanagedCodeSecurityAttribute : Attribute { }
+}
+
+#endregion
 
 #endif

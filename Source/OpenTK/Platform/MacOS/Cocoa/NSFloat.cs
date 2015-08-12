@@ -81,7 +81,7 @@ namespace OpenTK.Platform.MacOS
             return f;
         }
 
-        public static implicit operator float(NSFloat f)
+        public static implicit operator float (NSFloat f)
         {
             unsafe
             {
@@ -96,7 +96,7 @@ namespace OpenTK.Platform.MacOS
             }
         }
 
-        public static implicit operator double(NSFloat f)
+        public static implicit operator double (NSFloat f)
         {
             unsafe
             {
@@ -177,7 +177,7 @@ namespace OpenTK.Platform.MacOS
         public static implicit operator RectangleF(NSRect s)
         {
             return new RectangleF(s.Location, s.Size);
-        } 
+        }
     }
 }
 

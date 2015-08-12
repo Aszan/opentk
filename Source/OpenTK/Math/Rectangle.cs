@@ -204,7 +204,7 @@ namespace OpenTK
         /// are exclusive.</remarks>
         public bool Contains(Point point)
         {
-            return point.X >= Left && point.X < Right && 
+            return point.X >= Left && point.X < Right &&
                 point.Y >= Top && point.Y < Bottom;
         }
 

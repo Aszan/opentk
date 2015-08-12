@@ -726,7 +726,11 @@ namespace OpenTK.Platform.Windows
                 }
 
                 // Convert the buffer to a .Net string, and split it into parts
+#if NETCORE
+                string name = new string((char*)pname);
+#else
                 string name = new string(pname);
+#endif
                 if (String.IsNullOrEmpty(name))
                 {
                     Debug.Print("[WinRawJoystick] Failed to construct device name");
@@ -765,9 +769,9 @@ namespace OpenTK.Platform.Windows
             return Devices.FromIndex(index) != null;
         }
 
-        #endregion
+#endregion
 
-        #region IJoystickDriver2 Members
+#region IJoystickDriver2 Members
 
         public JoystickState GetState(int index)
         {
@@ -829,6 +833,6 @@ namespace OpenTK.Platform.Windows
             }
         }
 
-        #endregion
+#endregion
     }
 }

@@ -479,18 +479,18 @@ namespace OpenTK.Platform.MacOS
             return false;
         }
 
-        private bool AcceptsFirstResponder(IntPtr self, IntPtr cmd) 
-        { 
-            return true; 
-        }
-
-        private bool CanBecomeKeyWindow(IntPtr self, IntPtr cmd) 
-        { 
+        private bool AcceptsFirstResponder(IntPtr self, IntPtr cmd)
+        {
             return true;
         }
 
-        private bool CanBecomeMainWindow(IntPtr self, IntPtr cmd) 
-        { 
+        private bool CanBecomeKeyWindow(IntPtr self, IntPtr cmd)
+        {
+            return true;
+        }
+
+        private bool CanBecomeMainWindow(IntPtr self, IntPtr cmd)
+        {
             return true;
         }
 

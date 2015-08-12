@@ -33,6 +33,7 @@ using OpenTK.Graphics;
 using OpenTK.Input;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 #if !MINIMAL
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -52,8 +53,17 @@ namespace OpenTK.Platform.Windows
         const ExtendedWindowStyle ParentStyleEx = ExtendedWindowStyle.WindowEdge | ExtendedWindowStyle.ApplicationWindow;
         const ExtendedWindowStyle ChildStyleEx = 0;
 
+#if NETCORE
+        readonly IntPtr Instance = Functions.MarshalGetHINSTANCE(typeof(WinGLNative).GetTypeInfo().Module);
+#else
         readonly IntPtr Instance = Marshal.GetHINSTANCE(typeof(WinGLNative).Module);
+#endif
+
+#if NETCORE
+        readonly IntPtr ClassName = Marshal.StringToHGlobalUni(Guid.NewGuid().ToString());
+#else
         readonly IntPtr ClassName = Marshal.StringToHGlobalAuto(Guid.NewGuid().ToString());
+#endif
         readonly WindowProcedure WindowProcedureDelegate;
 
         readonly uint ModalLoopTimerPeriod = 1;
@@ -99,9 +109,9 @@ namespace OpenTK.Platform.Windows
 
         static readonly object SyncRoot = new object();
 
-        #endregion
+#endregion
 
-        #region Contructors
+#region Contructors
 
         public WinGLNative(int x, int y, int width, int height, string title, GameWindowFlags options, DisplayDevice device)
         {
@@ -155,11 +165,11 @@ namespace OpenTK.Platform.Windows
             }
         }
 
-        #endregion
+#endregion
 
-        #region Private Members
+#region Private Members
 
-        #region Scale
+#region Scale
 
         enum ScaleDirection { X, Y }
 
@@ -186,7 +196,7 @@ namespace OpenTK.Platform.Windows
         {
             return Scale(x, ScaleDirection.X);
         }
-        
+
         static int ScaleY(int y)
         {
             return Scale(y, ScaleDirection.Y);
@@ -219,9 +229,9 @@ namespace OpenTK.Platform.Windows
             return Unscale(y, ScaleDirection.Y);
         }
 
-        #endregion
+#endregion
 
-        #region Message Handlers
+#region Message Handlers
 
         void HandleActivate(IntPtr handle, WindowMessage message, IntPtr wParam, IntPtr lParam)
         {
@@ -680,9 +690,9 @@ namespace OpenTK.Platform.Windows
             OnClosed(EventArgs.Empty);
         }
 
-        #endregion
+#endregion
 
-        #region WindowProcedure
+#region WindowProcedure
 
         IntPtr WindowProcedure(IntPtr handle, WindowMessage message, IntPtr wParam, IntPtr lParam)
         {
@@ -690,7 +700,7 @@ namespace OpenTK.Platform.Windows
 
             switch (message)
             {
-                #region Size / Move / Style events
+#region Size / Move / Style events
 
                 case WindowMessage.ACTIVATE:
                     HandleActivate(handle, message, wParam, lParam);
@@ -934,7 +944,11 @@ namespace OpenTK.Platform.Windows
                 class_registered = true;
             }
 
+#if NETCORE
+            IntPtr window_name = Marshal.StringToHGlobalUni(title);
+#else
             IntPtr window_name = Marshal.StringToHGlobalAuto(title);
+#endif
             IntPtr handle = Functions.CreateWindowEx(
                 ex_style, ClassName, window_name, style,
                 rect.left, rect.top, rect.Width, rect.Height,

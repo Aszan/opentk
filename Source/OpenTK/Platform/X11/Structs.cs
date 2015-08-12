@@ -41,6 +41,7 @@ using System.Runtime.InteropServices;
 // X11 Version
 namespace OpenTK.Platform.X11
 {
+    using System.Reflection;
     using Bool = System.Boolean;
     using Time = System.IntPtr;
     using Window = System.IntPtr;
