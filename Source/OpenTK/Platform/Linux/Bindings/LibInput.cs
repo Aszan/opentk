@@ -62,7 +62,7 @@ namespace OpenTK.Platform.Linux
             unsafe
             {
 #if NETCORE
-                throw new NotImplementedException();
+                return new string((char*)DeviceGetNameInternal(device));
 #else
                 return new string((sbyte*)DeviceGetNameInternal(device));
 #endif
@@ -83,7 +83,7 @@ namespace OpenTK.Platform.Linux
             {
                 sbyte* pname = (sbyte*)DeviceGetOutputNameInternal(device);
 #if NETCORE
-                throw new NotImplementedException();
+                return pname == null ? String.Empty : new string((char*)pname);
 #else
                 return pname == null ? String.Empty : new string(pname);
 #endif
@@ -134,7 +134,7 @@ namespace OpenTK.Platform.Linux
             unsafe
             {
 #if NETCORE
-                throw new NotImplementedException();
+                return new string((char*)SeatGetLogicalNameInternal(seat));
 #else
                 return new string((sbyte*)SeatGetLogicalNameInternal(seat));
 #endif
