@@ -684,10 +684,12 @@ namespace OpenTK.Platform.Windows
         [DllImport("kernel32.dll")]
         internal static extern IntPtr GetModuleHandle([MarshalAs(UnmanagedType.LPTStr)]string module_name);
 
+#if NETCORE
         internal static IntPtr MarshalGetHINSTANCE(System.Reflection.Module m)
         {
             return GetModuleHandle(m.Name);
         }
+#endif
 
         #endregion
 
