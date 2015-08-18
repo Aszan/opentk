@@ -62,6 +62,7 @@ namespace OpenTK.Platform.X11
         extern static IntPtr sys_XOpenDisplay(IntPtr display);
         public static IntPtr XOpenDisplay(IntPtr display)
         {
+            Console.WriteLine("Trying to call sys_XOpenDisplay");
             lock (Lock)
             {
                 return sys_XOpenDisplay(display);

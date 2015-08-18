@@ -234,6 +234,15 @@
           "lib/dotnet/System.ComponentModel.Annotations.dll": {}
         }
       },
+      "System.Console/4.0.0-beta-23123": {
+        "dependencies": {
+          "System.Runtime": "[4.0.0, )",
+          "System.IO": "[4.0.0, )"
+        },
+        "compile": {
+          "ref/dotnet/System.Console.dll": {}
+        }
+      },
       "System.Diagnostics.Debug/4.0.10": {
         "dependencies": {
           "System.Runtime": "[4.0.0, )"
@@ -998,6 +1007,21 @@
         },
         "runtime": {
           "lib/net46/_._": {}
+        }
+      },
+      "System.Console/4.0.0-beta-23123": {
+        "dependencies": {
+          "System.Runtime": "[4.0.0, )",
+          "System.IO": "[4.0.0, )"
+        },
+        "frameworkAssemblies": [
+          "mscorlib"
+        ],
+        "compile": {
+          "ref/net46/System.Console.dll": {}
+        },
+        "runtime": {
+          "lib/net46/System.Console.dll": {}
         }
       },
       "System.Diagnostics.Debug/4.0.10": {
@@ -1831,6 +1855,25 @@
         },
         "runtime": {
           "lib/dotnet/System.ComponentModel.EventBasedAsync.dll": {}
+        }
+      },
+      "System.Console/4.0.0-beta-23123": {
+        "dependencies": {
+          "System.Runtime": "[4.0.20, )",
+          "System.Runtime.InteropServices": "[4.0.20, )",
+          "System.Resources.ResourceManager": "[4.0.0, )",
+          "System.IO.FileSystem.Primitives": "[4.0.0, )",
+          "System.IO": "[4.0.10, )",
+          "System.Threading.Tasks": "[4.0.10, )",
+          "System.Text.Encoding": "[4.0.10, )",
+          "System.Threading": "[4.0.10, )",
+          "System.Text.Encoding.Extensions": "[4.0.10, )"
+        },
+        "compile": {
+          "ref/dotnet/System.Console.dll": {}
+        },
+        "runtime": {
+          "lib/DNXCore50/System.Console.dll": {}
         }
       },
       "System.Diagnostics.Debug/4.0.10": {
@@ -2815,6 +2858,21 @@
           "lib/net46/_._": {}
         }
       },
+      "System.Console/4.0.0-beta-23123": {
+        "dependencies": {
+          "System.Runtime": "[4.0.0, )",
+          "System.IO": "[4.0.0, )"
+        },
+        "frameworkAssemblies": [
+          "mscorlib"
+        ],
+        "compile": {
+          "ref/net46/System.Console.dll": {}
+        },
+        "runtime": {
+          "lib/net46/System.Console.dll": {}
+        }
+      },
       "System.Diagnostics.Debug/4.0.10": {
         "compile": {
           "ref/net46/_._": {}
@@ -3549,6 +3607,21 @@
         },
         "runtime": {
           "lib/net46/_._": {}
+        }
+      },
+      "System.Console/4.0.0-beta-23123": {
+        "dependencies": {
+          "System.Runtime": "[4.0.0, )",
+          "System.IO": "[4.0.0, )"
+        },
+        "frameworkAssemblies": [
+          "mscorlib"
+        ],
+        "compile": {
+          "ref/net46/System.Console.dll": {}
+        },
+        "runtime": {
+          "lib/net46/System.Console.dll": {}
         }
       },
       "System.Diagnostics.Debug/4.0.10": {
@@ -4575,6 +4648,25 @@
         },
         "runtime": {
           "lib/dotnet/System.ComponentModel.EventBasedAsync.dll": {}
+        }
+      },
+      "System.Console/4.0.0-beta-23123": {
+        "dependencies": {
+          "System.Runtime": "[4.0.20, )",
+          "System.Runtime.InteropServices": "[4.0.20, )",
+          "System.Resources.ResourceManager": "[4.0.0, )",
+          "System.IO.FileSystem.Primitives": "[4.0.0, )",
+          "System.IO": "[4.0.10, )",
+          "System.Threading.Tasks": "[4.0.10, )",
+          "System.Text.Encoding": "[4.0.10, )",
+          "System.Threading": "[4.0.10, )",
+          "System.Text.Encoding.Extensions": "[4.0.10, )"
+        },
+        "compile": {
+          "ref/dotnet/System.Console.dll": {}
+        },
+        "runtime": {
+          "lib/DNXCore50/System.Console.dll": {}
         }
       },
       "System.Diagnostics.Contracts/4.0.0": {
@@ -5892,6 +5984,25 @@
         },
         "runtime": {
           "lib/dotnet/System.ComponentModel.EventBasedAsync.dll": {}
+        }
+      },
+      "System.Console/4.0.0-beta-23123": {
+        "dependencies": {
+          "System.Runtime": "[4.0.20, )",
+          "System.Runtime.InteropServices": "[4.0.20, )",
+          "System.Resources.ResourceManager": "[4.0.0, )",
+          "System.IO.FileSystem.Primitives": "[4.0.0, )",
+          "System.IO": "[4.0.10, )",
+          "System.Threading.Tasks": "[4.0.10, )",
+          "System.Text.Encoding": "[4.0.10, )",
+          "System.Threading": "[4.0.10, )",
+          "System.Text.Encoding.Extensions": "[4.0.10, )"
+        },
+        "compile": {
+          "ref/dotnet/System.Console.dll": {}
+        },
+        "runtime": {
+          "lib/DNXCore50/System.Console.dll": {}
         }
       },
       "System.Diagnostics.Contracts/4.0.0": {
@@ -7618,6 +7729,38 @@
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
         "package/services/metadata/core-properties/5094900f1f7e4f4dae27507acc72f2a5.psmdcp",
+        "[Content_Types].xml"
+      ]
+    },
+    "System.Console/4.0.0-beta-23123": {
+      "sha512": "fPglodP4GQV7HBBDhmCZaCD8fzBvhtHmBmiN/8yWiJz0NNnA55YUNBh3myvR2DP/6IOHJ75/tTRkvwdpX3BWXA==",
+      "type": "Package",
+      "files": [
+        "_rels/.rels",
+        "System.Console.nuspec",
+        "lib/DNXCore50/System.Console.dll",
+        "lib/net46/System.Console.dll",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "ref/dotnet/System.Console.dll",
+        "ref/dotnet/System.Console.xml",
+        "ref/dotnet/zh-hant/System.Console.xml",
+        "ref/dotnet/de/System.Console.xml",
+        "ref/dotnet/fr/System.Console.xml",
+        "ref/dotnet/it/System.Console.xml",
+        "ref/dotnet/ja/System.Console.xml",
+        "ref/dotnet/ko/System.Console.xml",
+        "ref/dotnet/ru/System.Console.xml",
+        "ref/dotnet/zh-hans/System.Console.xml",
+        "ref/dotnet/es/System.Console.xml",
+        "ref/net46/System.Console.dll",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "package/services/metadata/core-properties/8d7a3fc8c6314a7b8e950ea4ca023405.psmdcp",
         "[Content_Types].xml"
       ]
     },
@@ -9463,6 +9606,7 @@
       "Microsoft.NETCore >= 5.0.0",
       "Microsoft.NETCore.Portable.Compatibility >= 1.0.0",
       "Microsoft.Win32.Primitives >= 4.0.0",
+      "System.Console >= 4.0.0-beta-23123",
       "System.IO.FileSystem.Watcher >= 4.0.0-beta-23123",
       "System.Runtime.InteropServices.RuntimeInformation >= 4.0.0-beta-23127",
       "System.Threading.Thread >= 4.0.0-beta-23123"
