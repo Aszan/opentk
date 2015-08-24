@@ -1783,8 +1783,8 @@ namespace OpenTK.Platform.Windows
                     if (GetRawInputData(raw, GetRawInputDataEnum.HEADER,
                         (IntPtr)pheader, ref size, API.RawInputHeaderSize) != RawInputHeader.SizeInBytes)
                     {
-                        Debug.WriteLine("[Error] Failed to retrieve raw input header. Error: {0}",
-                            Marshal.GetLastWin32Error());
+                        Debug.WriteLine(string.Format("[Error] Failed to retrieve raw input header. Error: {0}",
+                            Marshal.GetLastWin32Error()));
                     }
                 }
             }
