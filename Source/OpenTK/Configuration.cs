@@ -332,20 +332,14 @@ namespace OpenTK
                     {
                         RunningOnSdl2 = DetectSdl2();
                     }
-
-                    bool overrideX11 = true;
-                    if ((runningOnLinux && !RunningOnSdl2) || options.Backend == PlatformBackend.PreferX11 || overrideX11)
+                    
+                    if ((runningOnLinux && !RunningOnSdl2) || options.Backend == PlatformBackend.PreferX11)
                     {
-                        Console.WriteLine("Trying to detect x11");
                         runningOnX11 = DetectX11();
                     }
 
                     initialized = true;
 #endif
-                    Console.WriteLine("Detected configuration: {0} / {1}",
-                        RunningOnWindows ? "Windows" : RunningOnLinux ? "Linux" : RunningOnMacOS ? "MacOS" :
-                        runningOnUnix ? "Unix" : RunningOnX11 ? "X11" : "Unknown Platform",
-                        RunningOnMono ? "Mono" : ".Net");
                     Debug.Print("Detected configuration: {0} / {1}",
                         RunningOnWindows ? "Windows" : RunningOnLinux ? "Linux" : RunningOnMacOS ? "MacOS" :
                         runningOnUnix ? "Unix" : RunningOnX11 ? "X11" : "Unknown Platform",
