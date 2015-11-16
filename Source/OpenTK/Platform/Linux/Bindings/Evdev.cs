@@ -412,12 +412,12 @@ namespace OpenTK.Platform.Linux
             {
                 sbyte* pname = stackalloc sbyte[129];
                 int ret = Libc.ioctl(fd, EvdevIoctl.Name128, new IntPtr(pname));
-#if NETCORE
-                throw new NotImplementedException();
-#else
+#if !NETCORE
                 name = new string(pname);
-                return ret;
+#else
+                name = UTF8String.String((IntPtr) pname);
 #endif
+                return ret;
             }
         }
 

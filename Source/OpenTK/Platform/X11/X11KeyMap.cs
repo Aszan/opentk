@@ -1,4 +1,4 @@
-﻿#region License
+﻿﻿#region License
 //
 // X11KeyMap.cs
 //
@@ -76,10 +76,10 @@ namespace OpenTK.Platform.X11
                         // Symbols are handled in GetKey() instead.
                         for (int i = keyboard->min_key_code; i <= keyboard->max_key_code; ++i)
                         {
-#if NETCORE
-                            string name = new string((char*)keyboard->names->keys[i].name, 0, Xkb.KeyNameLength);
-#else
+#if !NETCORE
                             string name = new string((sbyte*)keyboard->names->keys[i].name, 0, Xkb.KeyNameLength);
+#else
+                            string name = UTF8String.String(keyboard->names->keys[i].name, Xkb.KeyNameLength);
 #endif
 
                             Key key = Key.Unknown;
@@ -572,12 +572,12 @@ namespace OpenTK.Platform.X11
                     return Key.Home;
                 case XKey.End:
                     return Key.End;
-                //case XKey.Prior: return Key.PageUp;   // XKey.Prior == XKey.Page_Up
+            //case XKey.Prior: return Key.PageUp;   // XKey.Prior == XKey.Page_Up
                 case XKey.Page_Up:
                     return Key.PageUp;
                 case XKey.Page_Down:
                     return Key.PageDown;
-                //case XKey.Next: return Key.PageDown;  // XKey.Next == XKey.Page_Down
+            //case XKey.Next: return Key.PageDown;  // XKey.Next == XKey.Page_Down
 
                 case XKey.KP_Add:
                     return Key.KeypadAdd;
