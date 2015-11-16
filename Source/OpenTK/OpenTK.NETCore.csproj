@@ -717,6 +717,7 @@
     <Compile Include="Input\JoystickHatState.cs" />
     <Compile Include="MouseCursor.cs" />
     <Compile Include="Input\KeyModifiers.cs" />
+    <Compile Include="Platform\CoreCLR\UTF8String.cs" />
     <Compile Include="Platform\MacOS\CocoaContext.cs" />
     <Compile Include="Platform\MacOS\CocoaNativeWindow.cs" />
     <Compile Include="Platform\MacOS\CocoaWindowInfo.cs" />

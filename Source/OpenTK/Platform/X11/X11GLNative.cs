@@ -194,10 +194,9 @@ namespace OpenTK.Platform.X11
             hints.flags = (IntPtr)(XSizeHintsFlags.PSize | XSizeHintsFlags.PPosition);
 
             XClassHint class_hint = new XClassHint();
-#if NETCORE
-            var entry_assembly = typeof(X11GLNative).GetTypeInfo().Assembly;
-#else
+#if !NETCORE
             var entry_assembly = Assembly.GetEntryAssembly();
+
             // May not have an entry assembly, try to find a "matching" assembly in the AppDomain
             if (entry_assembly == null)
             {
@@ -212,8 +211,13 @@ namespace OpenTK.Platform.X11
                     }
                 }
             }
-#endif
+
             var name = entry_assembly.GetName().Name;
+#else
+                // In CoreCLR we do not have `Assembly.GetEntryAssembly' so we will a different name.
+            var name = typeof (X11GLNative).GetTypeInfo().Assembly.GetName().Name;
+#endif
+
             class_hint.Class = name;
             class_hint.Name = name.ToLower();
 
@@ -304,11 +308,11 @@ namespace OpenTK.Platform.X11
             }
         }
 
-#endregion
+        #endregion
 
-#region Private Members
+        #region Private Members
 
-#region private void RegisterAtoms()
+        #region private void RegisterAtoms()
 
         /// <summary>
         /// Not used yet.
@@ -358,9 +362,9 @@ namespace OpenTK.Platform.X11
             }
         }
 
-#endregion
+        #endregion
 
-#region SetWindowMinMax
+        #region SetWindowMinMax
         
         void SetWindowMinMax(int min_width, int min_height, int max_width, int max_height)
         {
@@ -407,9 +411,9 @@ namespace OpenTK.Platform.X11
             }
         }
 
-#endregion
+        #endregion
 
-#region IsWindowBorderResizable
+        #region IsWindowBorderResizable
 
         bool IsWindowBorderResizable
         {
@@ -428,9 +432,9 @@ namespace OpenTK.Platform.X11
             }
         }
 
-#endregion
+        #endregion
                 
-#region bool IsWindowBorderHidden
+        #region bool IsWindowBorderHidden
                 
         bool IsWindowBorderHidden
         {
@@ -460,9 +464,9 @@ namespace OpenTK.Platform.X11
             }
         }
                 
-#endregion
+        #endregion
 
-#region void DisableWindowDecorations()
+        #region void DisableWindowDecorations()
 
         void DisableWindowDecorations()
         {
@@ -488,7 +492,7 @@ namespace OpenTK.Platform.X11
         }
         
 
-#region bool DisableMotifDecorations()
+        #region bool DisableMotifDecorations()
 
         bool DisableMotifDecorations()
         {
@@ -509,9 +513,9 @@ namespace OpenTK.Platform.X11
             }
         }
 
-#endregion
+        #endregion
 
-#region bool DisableGnomeDecorations()
+        #region bool DisableGnomeDecorations()
 
         bool DisableGnomeDecorations()
         {
@@ -530,11 +534,11 @@ namespace OpenTK.Platform.X11
             }
         }
 
-#endregion
+        #endregion
 
-#endregion
+        #endregion
 
-#region void EnableWindowDecorations()
+        #region void EnableWindowDecorations()
 
         void EnableWindowDecorations()
         {
@@ -558,7 +562,7 @@ namespace OpenTK.Platform.X11
             }
         }
 
-#region bool EnableMotifDecorations()
+        #region bool EnableMotifDecorations()
 
         bool EnableMotifDecorations()
         {
@@ -580,9 +584,9 @@ namespace OpenTK.Platform.X11
             }
         }
 
-#endregion
+        #endregion
 
-#region bool EnableGnomeDecorations()
+        #region bool EnableGnomeDecorations()
 
         bool EnableGnomeDecorations()
         {
@@ -608,11 +612,11 @@ namespace OpenTK.Platform.X11
             }
         }
 
-#endregion
+        #endregion
 
-#endregion
+        #endregion
 
-#region DeleteIconPixmaps
+        #region DeleteIconPixmaps
         
         static void DeleteIconPixmaps(IntPtr display, IntPtr window)
         {
@@ -643,7 +647,7 @@ namespace OpenTK.Platform.X11
             }
         }
 
-#endregion
+        #endregion
 
         bool RefreshWindowBorders()
         {
@@ -782,11 +786,11 @@ namespace OpenTK.Platform.X11
             return cursor;
         }
 
-#endregion
+        #endregion
 
-#region INativeWindow Members
+        #region INativeWindow Members
 
-#region ProcessEvents
+        #region ProcessEvents
 
         public override void ProcessEvents()
         {
@@ -878,13 +882,11 @@ namespace OpenTK.Platform.X11
                                 int status = 0;
                                 status = Functions.XLookupString(
                                     ref e.KeyEvent, ascii, ascii.Length, null, IntPtr.Zero);
-
-#if NETCORE
-                                Encoding encoding = Encoding.GetEncoding(0);
+#if !NETCORE
+                                Encoding.Default.GetChars(ascii, 0, status, chars, 0);
 #else
-                                Encoding encoding = Encoding.Default;
+                                Encoding.UTF8.GetChars(ascii, 0, status, chars, 0);
 #endif
-                                encoding.GetChars(ascii, 0, status, chars, 0);
     
                                 for (int i = 0; i < status; i++)
                                 {
@@ -1021,9 +1023,9 @@ namespace OpenTK.Platform.X11
             }
         }
 
-#endregion
+        #endregion
 
-#region Bounds
+        #region Bounds
 
         public override Rectangle Bounds
         {
@@ -1069,9 +1071,9 @@ namespace OpenTK.Platform.X11
             }
         }
 
-#endregion
+        #endregion
 
-#region ClientSize
+        #region ClientSize
 
         public override Size ClientSize
         {
@@ -1104,9 +1106,9 @@ namespace OpenTK.Platform.X11
             }
         }
 
-#endregion
+        #endregion
 
-#region Icon
+        #region Icon
 
         public override Icon Icon
         {
@@ -1178,9 +1180,9 @@ namespace OpenTK.Platform.X11
             }
         }
 
-#endregion
+        #endregion
 
-#region Focused
+        #region Focused
 
         public override bool Focused
         {
@@ -1190,9 +1192,9 @@ namespace OpenTK.Platform.X11
             }
         }
 
-#endregion
+        #endregion
 
-#region WindowState
+        #region WindowState
 
         public override OpenTK.WindowState WindowState
         {
@@ -1357,9 +1359,9 @@ namespace OpenTK.Platform.X11
             }
         }
 
-#endregion
+        #endregion
 
-#region WindowBorder
+        #region WindowBorder
 
         public override OpenTK.WindowBorder WindowBorder
         {
@@ -1426,9 +1428,9 @@ namespace OpenTK.Platform.X11
             ProcessEvents();
         }
 
-#endregion
+        #endregion
 
-#region Cursor
+        #region Cursor
 
         public override MouseCursor Cursor
         {
@@ -1480,16 +1482,16 @@ namespace OpenTK.Platform.X11
             }
         }
 
-#endregion
+        #endregion
 
-#region CursorVisible
+        #region CursorVisible
 
         public override bool CursorVisible
         {
             get { return cursor_visible; }
             set
             {
-                if (value)
+                if (value && !cursor_visible)
                 {
                     using (new XLock(window.Display))
                     {
@@ -1504,7 +1506,7 @@ namespace OpenTK.Platform.X11
                         cursor_visible = true;
                     }
                 }
-                else
+                else if(!value && cursor_visible)
                 {
                     using (new XLock(window.Display))
                     {
@@ -1529,13 +1531,13 @@ namespace OpenTK.Platform.X11
             Functions.XUngrabPointer(window.Display, IntPtr.Zero);
         }
 
-#endregion
+        #endregion
 
-#endregion
+        #endregion
 
-#region --- INativeGLWindow Members ---
+        #region --- INativeGLWindow Members ---
 
-#region public bool Exists
+        #region public bool Exists
 
         /// <summary>
         /// Returns true if a render window/context exists.
@@ -1545,18 +1547,18 @@ namespace OpenTK.Platform.X11
             get { return exists; }
         }
 
-#endregion
+        #endregion
 
-#region public bool IsIdle
+        #region public bool IsIdle
 
         public bool IsIdle
         {
             get { throw new Exception("The method or operation is not implemented."); }
         }
 
-#endregion
+        #endregion
 
-#region public IntPtr Handle
+        #region public IntPtr Handle
 
         /// <summary>
         /// Gets the current window handle.
@@ -1566,9 +1568,9 @@ namespace OpenTK.Platform.X11
             get { return this.window.Handle; }
         }
 
-#endregion
+        #endregion
 
-#region public string Title
+        #region public string Title
 
         /// <summary>
         /// TODO: Use atoms for this property.
@@ -1602,9 +1604,9 @@ namespace OpenTK.Platform.X11
             }
         }
 
-#endregion
+        #endregion
 
-#region public bool Visible
+        #region public bool Visible
 
         public override bool Visible
         {
@@ -1631,20 +1633,20 @@ namespace OpenTK.Platform.X11
             }
         }
 
-#endregion
+        #endregion
 
-#region public IWindowInfo WindowInfo
+        #region public IWindowInfo WindowInfo
 
         public override IWindowInfo WindowInfo
         {
             get { return window; }
         }
 
-#endregion
+        #endregion
 
         public override void Close() { Exit(); }
 
-#region public void Exit()
+        #region public void Exit()
 
         public void Exit()
         {
@@ -1664,9 +1666,9 @@ namespace OpenTK.Platform.X11
             }
         }
 
-#endregion
+        #endregion
 
-#region public void DestroyWindow()
+        #region public void DestroyWindow()
 
         public void DestroyWindow()
         {
@@ -1681,9 +1683,9 @@ namespace OpenTK.Platform.X11
             }
         }
 
-#endregion
+        #endregion
 
-#region PointToClient
+        #region PointToClient
 
         public override Point PointToClient(Point point)
         {
@@ -1701,9 +1703,9 @@ namespace OpenTK.Platform.X11
             return point;
         }
 
-#endregion
+        #endregion
 
-#region PointToScreen
+        #region PointToScreen
 
         public override Point PointToScreen(Point point)
         {
@@ -1721,11 +1723,11 @@ namespace OpenTK.Platform.X11
             return point;
         }
 
-#endregion
+        #endregion
 
-#endregion
+        #endregion
 
-#region IDisposable Members
+        #region IDisposable Members
 
         protected override void Dispose(bool manuallyCalled)
         {
@@ -1757,6 +1759,6 @@ namespace OpenTK.Platform.X11
             }
         }
 
-#endregion
+        #endregion
     }
 }
