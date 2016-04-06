@@ -699,10 +699,10 @@ namespace OpenTK.Platform.X11
         public int backing_store;
         public IntPtr backing_planes;
         public IntPtr backing_pixel;
-        public bool save_under;
+        public byte save_under;
         public IntPtr event_mask;
         public IntPtr do_not_propagate_mask;
-        public bool override_redirect;
+        public byte override_redirect;
         public IntPtr colormap;
         public IntPtr cursor;
     }
