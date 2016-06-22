@@ -59,7 +59,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+#if !NETCORE
 using System.Runtime.Serialization;
+#endif
 
 namespace OpenTK
 {

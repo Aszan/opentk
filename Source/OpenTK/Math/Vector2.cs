@@ -24,8 +24,9 @@ SOFTWARE.
 
 using System;
 using System.Runtime.InteropServices;
+#if !NETCORE
 using System.Xml.Serialization;
-
+#endif
 namespace OpenTK
 {
     /// <summary>Represents a 2D vector using two single-precision floating-point numbers.</summary>

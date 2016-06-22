@@ -24,7 +24,9 @@ SOFTWARE.
 
 using System;
 using System.Runtime.InteropServices;
+#if !NETCORE
 using System.Xml.Serialization;
+# endif
 namespace OpenTK
 {
     /// <summary>Represents a 4D vector using four single-precision floating-point numbers.</summary>
@@ -35,7 +37,7 @@ namespace OpenTK
     [StructLayout(LayoutKind.Sequential)]
     public struct Vector4 : IEquatable<Vector4>
     {
-        #region Fields
+#region Fields
 
         /// <summary>
         /// The X component of the Vector4.
@@ -92,9 +94,9 @@ namespace OpenTK
         /// </summary>
         public static readonly int SizeInBytes = Marshal.SizeOf(new Vector4());
 
-        #endregion
+#endregion
 
-        #region Constructors
+#region Constructors
 
         /// <summary>
         /// Constructs a new instance.
@@ -174,9 +176,9 @@ namespace OpenTK
             W = v.W;
         }
 
-        #endregion
+#endregion
 
-        #region Public Members
+#region Public Members
 
         /// <summary>
         /// Gets or sets the value at the index of the Vector.
@@ -197,9 +199,9 @@ namespace OpenTK
             }
         }
 
-        #region Instance
+#region Instance
 
-        #region public void Add()
+#region public void Add()
 
         /// <summary>Add the Vector passed as parameter to this instance.</summary>
         /// <param name="right">Right operand. This parameter is only read from.</param>
@@ -225,9 +227,9 @@ namespace OpenTK
             this.W += right.W;
         }
 
-        #endregion public void Add()
+#endregion public void Add()
 
-        #region public void Sub()
+#region public void Sub()
 
         /// <summary>Subtract the Vector passed as parameter from this instance.</summary>
         /// <param name="right">Right operand. This parameter is only read from.</param>
@@ -253,9 +255,9 @@ namespace OpenTK
             this.W -= right.W;
         }
 
-        #endregion public void Sub()
+#endregion public void Sub()
 
-        #region public void Mult()
+#region public void Mult()
 
         /// <summary>Multiply this instance by a scalar.</summary>
         /// <param name="f">Scalar operand.</param>
@@ -268,9 +270,9 @@ namespace OpenTK
             this.W *= f;
         }
 
-        #endregion public void Mult()
+#endregion public void Mult()
 
-        #region public void Div()
+#region public void Div()
 
         /// <summary>Divide this instance by a scalar.</summary>
         /// <param name="f">Scalar operand.</param>
@@ -284,9 +286,9 @@ namespace OpenTK
             this.W *= mult;
         }
 
-        #endregion public void Div()
+#endregion public void Div()
 
-        #region public float Length
+#region public float Length
 
         /// <summary>
         /// Gets the length (magnitude) of the vector.
@@ -301,9 +303,9 @@ namespace OpenTK
             }
         }
 
-        #endregion
+#endregion
 
-        #region public float LengthFast
+#region public float LengthFast
 
         /// <summary>
         /// Gets an approximation of the vector length (magnitude).
@@ -322,9 +324,9 @@ namespace OpenTK
             }
         }
 
-        #endregion
+#endregion
 
-        #region public float LengthSquared
+#region public float LengthSquared
 
         /// <summary>
         /// Gets the square of the vector length (magnitude).
@@ -343,7 +345,7 @@ namespace OpenTK
             }
         }
 
-        #endregion
+#endregion
 
         /// <summary>
         /// Returns a copy of the Vector4 scaled to unit length.
@@ -355,7 +357,7 @@ namespace OpenTK
             return v;
         }
 
-        #region public void Normalize()
+#region public void Normalize()
 
         /// <summary>
         /// Scales the Vector4 to unit length.
@@ -369,9 +371,9 @@ namespace OpenTK
             W *= scale;
         }
 
-        #endregion
+#endregion
 
-        #region public void NormalizeFast()
+#region public void NormalizeFast()
 
         /// <summary>
         /// Scales the Vector4 to approximately unit length.
@@ -385,9 +387,9 @@ namespace OpenTK
             W *= scale;
         }
 
-        #endregion
+#endregion
 
-        #region public void Scale()
+#region public void Scale()
 
         /// <summary>
         /// Scales the current Vector4 by the given amounts.
@@ -429,15 +431,15 @@ namespace OpenTK
             this.W *= scale.W;
         }
 
-        #endregion public void Scale()
+#endregion public void Scale()
 
-        #endregion
+#endregion
 
-        #region Static
+#region Static
 
-        #region Obsolete
+#region Obsolete
 
-        #region Sub
+#region Sub
 
         /// <summary>
         /// Subtract one Vector from another
@@ -468,9 +470,9 @@ namespace OpenTK
             result.W = a.W - b.W;
         }
 
-        #endregion
+#endregion
 
-        #region Mult
+#region Mult
 
         /// <summary>
         /// Multiply a vector and a scalar
@@ -501,9 +503,9 @@ namespace OpenTK
             result.W = a.W * f;
         }
 
-        #endregion
+#endregion
 
-        #region Div
+#region Div
 
         /// <summary>
         /// Divide a vector by a scalar
@@ -536,11 +538,11 @@ namespace OpenTK
             result.W = a.W * mult;
         }
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region Add
+#region Add
 
         /// <summary>
         /// Adds two vectors.
@@ -565,9 +567,9 @@ namespace OpenTK
             result = new Vector4(a.X + b.X, a.Y + b.Y, a.Z + b.Z, a.W + b.W);
         }
 
-        #endregion
+#endregion
 
-        #region Subtract
+#region Subtract
 
         /// <summary>
         /// Subtract one Vector from another
@@ -592,9 +594,9 @@ namespace OpenTK
             result = new Vector4(a.X - b.X, a.Y - b.Y, a.Z - b.Z, a.W - b.W);
         }
 
-        #endregion
+#endregion
 
-        #region Multiply
+#region Multiply
 
         /// <summary>
         /// Multiplies a vector by a scalar.
@@ -642,9 +644,9 @@ namespace OpenTK
             result = new Vector4(vector.X * scale.X, vector.Y * scale.Y, vector.Z * scale.Z, vector.W * scale.W);
         }
 
-        #endregion
+#endregion
 
-        #region Divide
+#region Divide
 
         /// <summary>
         /// Divides a vector by a scalar.
@@ -692,9 +694,9 @@ namespace OpenTK
             result = new Vector4(vector.X / scale.X, vector.Y / scale.Y, vector.Z / scale.Z, vector.W / scale.W);
         }
 
-        #endregion
+#endregion
 
-        #region Min
+#region Min
 
         /// <summary>
         /// Calculate the component-wise minimum of two vectors
@@ -725,9 +727,9 @@ namespace OpenTK
             result.W = a.W < b.W ? a.W : b.W;
         }
 
-        #endregion
+#endregion
 
-        #region Max
+#region Max
 
         /// <summary>
         /// Calculate the component-wise maximum of two vectors
@@ -758,9 +760,9 @@ namespace OpenTK
             result.W = a.W > b.W ? a.W : b.W;
         }
 
-        #endregion
+#endregion
 
-        #region Clamp
+#region Clamp
 
         /// <summary>
         /// Clamp a vector to the given minimum and maximum vectors
@@ -793,9 +795,9 @@ namespace OpenTK
             result.W = vec.Y < min.W ? min.W : vec.W > max.W ? max.W : vec.W;
         }
 
-        #endregion
+#endregion
 
-        #region Normalize
+#region Normalize
 
         /// <summary>
         /// Scale a vector to unit length
@@ -826,9 +828,9 @@ namespace OpenTK
             result.W = vec.W * scale;
         }
 
-        #endregion
+#endregion
 
-        #region NormalizeFast
+#region NormalizeFast
 
         /// <summary>
         /// Scale a vector to approximately unit length
@@ -859,9 +861,9 @@ namespace OpenTK
             result.W = vec.W * scale;
         }
 
-        #endregion
+#endregion
 
-        #region Dot
+#region Dot
 
         /// <summary>
         /// Calculate the dot product of two vectors
@@ -885,9 +887,9 @@ namespace OpenTK
             result = left.X * right.X + left.Y * right.Y + left.Z * right.Z + left.W * right.W;
         }
 
-        #endregion
+#endregion
 
-        #region Lerp
+#region Lerp
 
         /// <summary>
         /// Returns a new Vector that is the linear blend of the 2 given Vectors
@@ -920,9 +922,9 @@ namespace OpenTK
             result.W = blend * (b.W - a.W) + a.W;
         }
 
-        #endregion
+#endregion
 
-        #region Barycentric
+#region Barycentric
 
         /// <summary>
         /// Interpolate 3 Vectors using Barycentric coordinates
@@ -960,9 +962,9 @@ namespace OpenTK
             Add(ref result, ref temp, out result);
         }
 
-        #endregion
+#endregion
 
-        #region Transform
+#region Transform
 
         /// <summary>Transform a Vector by the given Matrix</summary>
         /// <param name="vec">The vector to transform</param>
@@ -1017,13 +1019,13 @@ namespace OpenTK
             result = new Vector4(v.X, v.Y, v.Z, v.W);
         }
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region Swizzle
+#region Swizzle
 
-        #region 2-component
+#region 2-component
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector2 with the X and Y components of this instance.
@@ -1097,9 +1099,9 @@ namespace OpenTK
         [XmlIgnore]
         public Vector2 Wz { get { return new Vector2(W, Z); } set { W = value.X; Z = value.Y; } }
 
-        #endregion
+#endregion
 
-        #region 3-component
+#region 3-component
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector3 with the X, Y, and Z components of this instance.
@@ -1245,9 +1247,9 @@ namespace OpenTK
         [XmlIgnore]
         public Vector3 Wzy { get { return new Vector3(W, Z, Y); } set { W = value.X; Z = value.Y; Y = value.Z; } }
 
-        #endregion
+#endregion
 
-        #region 4-component
+#region 4-component
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector4 with the X, Y, W, and Z components of this instance.
@@ -1411,11 +1413,11 @@ namespace OpenTK
         [XmlIgnore]
         public Vector4 Wzyw { get { return new Vector4(W, Z, Y, W); } set { X = value.X; Z = value.Y; Y = value.Z; W = value.W; } }
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region Operators
+#region Operators
 
         /// <summary>
         /// Adds two instances.
@@ -1568,11 +1570,11 @@ namespace OpenTK
             }
         }
 
-        #endregion
+#endregion
 
-        #region Overrides
+#region Overrides
 
-        #region public override string ToString()
+#region public override string ToString()
 
         private static string listSeparator = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator;
         /// <summary>
@@ -1584,9 +1586,9 @@ namespace OpenTK
             return String.Format("({0}{4} {1}{4} {2}{4} {3})", X, Y, Z, W, listSeparator);
         }
 
-        #endregion
+#endregion
 
-        #region public override int GetHashCode()
+#region public override int GetHashCode()
 
         /// <summary>
         /// Returns the hashcode for this instance.
@@ -1597,9 +1599,9 @@ namespace OpenTK
             return X.GetHashCode() ^ Y.GetHashCode() ^ Z.GetHashCode() ^ W.GetHashCode();
         }
 
-        #endregion
+#endregion
 
-        #region public override bool Equals(object obj)
+#region public override bool Equals(object obj)
 
         /// <summary>
         /// Indicates whether this instance and a specified object are equal.
@@ -1614,13 +1616,13 @@ namespace OpenTK
             return this.Equals((Vector4)obj);
         }
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region IEquatable<Vector4> Members
+#region IEquatable<Vector4> Members
 
         /// <summary>Indicates whether the current vector is equal to another vector.</summary>
         /// <param name="other">A vector to compare with this vector.</param>
@@ -1634,6 +1636,6 @@ namespace OpenTK
                 W == other.W;
         }
 
-        #endregion
+#endregion
     }
 }

@@ -24,7 +24,9 @@ SOFTWARE.
 
 using System;
 using System.Runtime.InteropServices;
+#if !NETCORE
 using System.Xml.Serialization;
+#endif
 namespace OpenTK
 {
     /// <summary>
@@ -37,7 +39,7 @@ namespace OpenTK
     [StructLayout(LayoutKind.Sequential)]
     public struct Vector3 : IEquatable<Vector3>
     {
-        #region Fields
+#region Fields
 
         /// <summary>
         /// The X component of the Vector3.
@@ -54,9 +56,9 @@ namespace OpenTK
         /// </summary>
         public float Z;
 
-        #endregion
+#endregion
 
-        #region Constructors
+#region Constructors
 
         /// <summary>
         /// Constructs a new instance.
@@ -115,9 +117,9 @@ namespace OpenTK
             Z = v.Z;
         }
 
-        #endregion
+#endregion
 
-        #region Public Members
+#region Public Members
 
 
         /// <summary>
@@ -137,9 +139,9 @@ namespace OpenTK
             }
         }
 
-        #region Instance
+#region Instance
 
-        #region public void Add()
+#region public void Add()
 
         /// <summary>Add the Vector passed as parameter to this instance.</summary>
         /// <param name="right">Right operand. This parameter is only read from.</param>
@@ -163,9 +165,9 @@ namespace OpenTK
             this.Z += right.Z;
         }
 
-        #endregion public void Add()
+#endregion public void Add()
 
-        #region public void Sub()
+#region public void Sub()
 
         /// <summary>Subtract the Vector passed as parameter from this instance.</summary>
         /// <param name="right">Right operand. This parameter is only read from.</param>
@@ -189,9 +191,9 @@ namespace OpenTK
             this.Z -= right.Z;
         }
 
-        #endregion public void Sub()
+#endregion public void Sub()
 
-        #region public void Mult()
+#region public void Mult()
 
         /// <summary>Multiply this instance by a scalar.</summary>
         /// <param name="f">Scalar operand.</param>
@@ -203,9 +205,9 @@ namespace OpenTK
             this.Z *= f;
         }
 
-        #endregion public void Mult()
+#endregion public void Mult()
 
-        #region public void Div()
+#region public void Div()
 
         /// <summary>Divide this instance by a scalar.</summary>
         /// <param name="f">Scalar operand.</param>
@@ -218,9 +220,9 @@ namespace OpenTK
             this.Z *= mult;
         }
 
-        #endregion public void Div()
+#endregion public void Div()
 
-        #region public float Length
+#region public float Length
 
         /// <summary>
         /// Gets the length (magnitude) of the vector.
@@ -235,9 +237,9 @@ namespace OpenTK
             }
         }
 
-        #endregion
+#endregion
 
-        #region public float LengthFast
+#region public float LengthFast
 
         /// <summary>
         /// Gets an approximation of the vector length (magnitude).
@@ -256,9 +258,9 @@ namespace OpenTK
             }
         }
 
-        #endregion
+#endregion
 
-        #region public float LengthSquared
+#region public float LengthSquared
 
         /// <summary>
         /// Gets the square of the vector length (magnitude).
@@ -277,7 +279,7 @@ namespace OpenTK
             }
         }
 
-        #endregion
+#endregion
 
         /// <summary>
         /// Returns a copy of the Vector3 scaled to unit length.
@@ -289,7 +291,7 @@ namespace OpenTK
             return v;
         }
 
-        #region public void Normalize()
+#region public void Normalize()
 
         /// <summary>
         /// Scales the Vector3 to unit length.
@@ -302,9 +304,9 @@ namespace OpenTK
             Z *= scale;
         }
 
-        #endregion
+#endregion
 
-        #region public void NormalizeFast()
+#region public void NormalizeFast()
 
         /// <summary>
         /// Scales the Vector3 to approximately unit length.
@@ -317,9 +319,9 @@ namespace OpenTK
             Z *= scale;
         }
 
-        #endregion
+#endregion
 
-        #region public void Scale()
+#region public void Scale()
 
         /// <summary>
         /// Scales the current Vector3 by the given amounts.
@@ -357,13 +359,13 @@ namespace OpenTK
             this.Z *= scale.Z;
         }
 
-        #endregion public void Scale()
+#endregion public void Scale()
 
-        #endregion
+#endregion
 
-        #region Static
+#region Static
 
-        #region Fields
+#region Fields
 
         /// <summary>
         /// Defines a unit-length Vector3 that points towards the X-axis.
@@ -395,11 +397,11 @@ namespace OpenTK
         /// </summary>
         public static readonly int SizeInBytes = Marshal.SizeOf(new Vector3());
 
-        #endregion
+#endregion
 
-        #region Obsolete
+#region Obsolete
 
-        #region Sub
+#region Sub
 
         /// <summary>
         /// Subtract one Vector from another
@@ -430,9 +432,9 @@ namespace OpenTK
             result.Z = a.Z - b.Z;
         }
 
-        #endregion
+#endregion
 
-        #region Mult
+#region Mult
 
         /// <summary>
         /// Multiply a vector and a scalar
@@ -463,9 +465,9 @@ namespace OpenTK
             result.Z = a.Z * f;
         }
 
-        #endregion
+#endregion
 
-        #region Div
+#region Div
 
         /// <summary>
         /// Divide a vector by a scalar
@@ -498,11 +500,11 @@ namespace OpenTK
             result.Z = a.Z * mult;
         }
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region Add
+#region Add
 
         /// <summary>
         /// Adds two vectors.
@@ -527,9 +529,9 @@ namespace OpenTK
             result = new Vector3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
         }
 
-        #endregion
+#endregion
 
-        #region Subtract
+#region Subtract
 
         /// <summary>
         /// Subtract one Vector from another
@@ -554,9 +556,9 @@ namespace OpenTK
             result = new Vector3(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
         }
 
-        #endregion
+#endregion
 
-        #region Multiply
+#region Multiply
 
         /// <summary>
         /// Multiplies a vector by a scalar.
@@ -604,9 +606,9 @@ namespace OpenTK
             result = new Vector3(vector.X * scale.X, vector.Y * scale.Y, vector.Z * scale.Z);
         }
 
-        #endregion
+#endregion
 
-        #region Divide
+#region Divide
 
         /// <summary>
         /// Divides a vector by a scalar.
@@ -654,9 +656,9 @@ namespace OpenTK
             result = new Vector3(vector.X / scale.X, vector.Y / scale.Y, vector.Z / scale.Z);
         }
 
-        #endregion
+#endregion
 
-        #region ComponentMin
+#region ComponentMin
 
         /// <summary>
         /// Calculate the component-wise minimum of two vectors
@@ -685,9 +687,9 @@ namespace OpenTK
             result.Z = a.Z < b.Z ? a.Z : b.Z;
         }
 
-        #endregion
+#endregion
 
-        #region ComponentMax
+#region ComponentMax
 
         /// <summary>
         /// Calculate the component-wise maximum of two vectors
@@ -716,9 +718,9 @@ namespace OpenTK
             result.Z = a.Z > b.Z ? a.Z : b.Z;
         }
 
-        #endregion
+#endregion
 
-        #region Min
+#region Min
 
         /// <summary>
         /// Returns the Vector3 with the minimum magnitude
@@ -731,9 +733,9 @@ namespace OpenTK
             return left.LengthSquared < right.LengthSquared ? left : right;
         }
 
-        #endregion
+#endregion
 
-        #region Max
+#region Max
 
         /// <summary>
         /// Returns the Vector3 with the minimum magnitude
@@ -746,9 +748,9 @@ namespace OpenTK
             return left.LengthSquared >= right.LengthSquared ? left : right;
         }
 
-        #endregion
+#endregion
 
-        #region Clamp
+#region Clamp
 
         /// <summary>
         /// Clamp a vector to the given minimum and maximum vectors
@@ -779,9 +781,9 @@ namespace OpenTK
             result.Z = vec.Z < min.Z ? min.Z : vec.Z > max.Z ? max.Z : vec.Z;
         }
 
-        #endregion
+#endregion
 
-        #region Normalize
+#region Normalize
 
         /// <summary>
         /// Scale a vector to unit length
@@ -810,9 +812,9 @@ namespace OpenTK
             result.Z = vec.Z * scale;
         }
 
-        #endregion
+#endregion
 
-        #region NormalizeFast
+#region NormalizeFast
 
         /// <summary>
         /// Scale a vector to approximately unit length
@@ -841,9 +843,9 @@ namespace OpenTK
             result.Z = vec.Z * scale;
         }
 
-        #endregion
+#endregion
 
-        #region Dot
+#region Dot
 
         /// <summary>
         /// Calculate the dot (scalar) product of two vectors
@@ -867,9 +869,9 @@ namespace OpenTK
             result = left.X * right.X + left.Y * right.Y + left.Z * right.Z;
         }
 
-        #endregion
+#endregion
 
-        #region Cross
+#region Cross
 
         /// <summary>
         /// Caclulate the cross (vector) product of two vectors
@@ -898,9 +900,9 @@ namespace OpenTK
                 left.X * right.Y - left.Y * right.X);
         }
 
-        #endregion
+#endregion
 
-        #region Lerp
+#region Lerp
 
         /// <summary>
         /// Returns a new Vector that is the linear blend of the 2 given Vectors
@@ -931,9 +933,9 @@ namespace OpenTK
             result.Z = blend * (b.Z - a.Z) + a.Z;
         }
 
-        #endregion
+#endregion
 
-        #region Barycentric
+#region Barycentric
 
         /// <summary>
         /// Interpolate 3 Vectors using Barycentric coordinates
@@ -971,9 +973,9 @@ namespace OpenTK
             Add(ref result, ref temp, out result);
         }
 
-        #endregion
+#endregion
 
-        #region Transform
+#region Transform
 
         /// <summary>Transform a direction vector by the given Matrix
         /// Assumes the matrix has a bottom row of (0,0,0,1), that is the translation part is ignored.
@@ -1192,9 +1194,9 @@ namespace OpenTK
             result.Z = v.Z / v.W;
         }
 
-        #endregion
+#endregion
 
-        #region CalculateAngle
+#region CalculateAngle
 
         /// <summary>
         /// Calculates the angle (in radians) between two vectors.
@@ -1222,9 +1224,9 @@ namespace OpenTK
             result = (float)System.Math.Acos(MathHelper.Clamp(temp / (first.Length * second.Length), -1.0, 1.0));
         }
 
-        #endregion
+#endregion
 
-        #region Project
+#region Project
 
         /// <summary>
         /// Projects a vector from object space into screen space.
@@ -1279,9 +1281,9 @@ namespace OpenTK
             return new Vector3(result.X, result.Y, result.Z);
         }
 
-        #endregion
+#endregion
 
-        #region Unproject
+#region Unproject
 
         /// <summary>
         /// Projects a vector from screen space into object space.
@@ -1336,13 +1338,13 @@ namespace OpenTK
             return new Vector3(result.X, result.Y, result.Z);
         }
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region Swizzle
+#region Swizzle
 
-        #region 2-component
+#region 2-component
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector2 with the X and Y components of this instance.
@@ -1380,9 +1382,9 @@ namespace OpenTK
         [XmlIgnore]
         public Vector2 Zy { get { return new Vector2(Z, Y); } set { Z = value.X; Y = value.Y; } }
 
-        #endregion
+#endregion
 
-        #region 3-component
+#region 3-component
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector3 with the X, Z, and Y components of this instance.
@@ -1414,11 +1416,11 @@ namespace OpenTK
         [XmlIgnore]
         public Vector3 Zyx { get { return new Vector3(Z, Y, X); } set { Z = value.X; Y = value.Y; X = value.Z; } }
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region Operators
+#region Operators
 
         /// <summary>
         /// Adds two instances.
@@ -1540,11 +1542,11 @@ namespace OpenTK
             return !left.Equals(right);
         }
 
-        #endregion
+#endregion
 
-        #region Overrides
+#region Overrides
 
-        #region public override string ToString()
+#region public override string ToString()
 
         private static string listSeparator = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator;
         /// <summary>
@@ -1556,9 +1558,9 @@ namespace OpenTK
             return String.Format("({0}{3} {1}{3} {2})", X, Y, Z, listSeparator);
         }
 
-        #endregion
+#endregion
 
-        #region public override int GetHashCode()
+#region public override int GetHashCode()
 
         /// <summary>
         /// Returns the hashcode for this instance.
@@ -1569,9 +1571,9 @@ namespace OpenTK
             return X.GetHashCode() ^ Y.GetHashCode() ^ Z.GetHashCode();
         }
 
-        #endregion
+#endregion
 
-        #region public override bool Equals(object obj)
+#region public override bool Equals(object obj)
 
         /// <summary>
         /// Indicates whether this instance and a specified object are equal.
@@ -1586,13 +1588,13 @@ namespace OpenTK
             return this.Equals((Vector3)obj);
         }
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region IEquatable<Vector3> Members
+#region IEquatable<Vector3> Members
 
         /// <summary>Indicates whether the current vector is equal to another vector.</summary>
         /// <param name="other">A vector to compare with this vector.</param>
@@ -1605,6 +1607,6 @@ namespace OpenTK
                 Z == other.Z;
         }
 
-        #endregion
+#endregion
     }
 }

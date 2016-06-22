@@ -31,8 +31,9 @@ using System.Collections.Generic;
 using System.Drawing;
 #endif
 using System.Text;
+#if !NETCORE
 using System.Xml.Serialization;
-
+#endif
 namespace OpenTK.Graphics
 {
     /// <summary>

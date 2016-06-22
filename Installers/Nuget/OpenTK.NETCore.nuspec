@@ -25,30 +25,27 @@
         </description>
         <copyright>Copyright 2006-2013 Stefanos Apostolopoulos</copyright>
         <tags>OpenTK OpenGL OpenGLES OpenAL C# F# VB .Net Mono</tags>
-    <dependencies>
-      <group targetFramework=".NETStandard1.3">
-        <dependency id="System.Runtime" version="[4.0.0, )" />
-        <dependency id="System.Runtime.InteropServices" version="[4.0.20, )" />
-        <dependency id="System.Collections" version="[4.0.10, )" />
-        <dependency id="System.ComponentModel" version="[4.0.0, )" />
-        <dependency id="System.Reflection" version="[4.0.10, )" />
-        <dependency id="System.IO" version="[4.0.10, )" />
-        <dependency id="System.Runtime.Extensions" version="[4.0.10, )" />
-        <dependency id="System.IO.FileSystem.Watcher" version="[4.0.0, )" />
-        <dependency id="System.Threading.Thread" version="[4.0.0, )" />
-        <dependency id="System.Threading" version="[4.0.0, )" />
-        <dependency id="System.Text.Encoding" version="[4.0.10, )" />
-        <dependency id="System.Reflection.TypeExtensions" version="[4.0.0, )" />
-        <dependency id="System.Reflection.Extensions" version="[4.0.0, )" />
-        <dependency id="System.Runtime.InteropServices.RuntimeInformation" version="[4.0.0, )" />
-        <dependency id="System.Globalization" version="[4.0.10, )" />
-        <dependency id="System.IO.FileSystem" version="[4.0.0, )" />
-        <dependency id="Microsoft.Win32.Primitives" version="[4.0.0, )" />
-      </group>
-  </dependencies>
+        <dependencies>
+            <group targetFramework=".NETStandard1.3">
+                <dependency id="Microsoft.Win32.Primitives" version="4.0.1" />
+                <dependency id="System.Collections" version="4.0.11" />
+                <dependency id="System.Collections.Specialized" version="4.0.1" />
+                <dependency id="System.ComponentModel.Primitives" version="4.1.0" />
+                <dependency id="System.Globalization" version="4.0.11" />
+                <dependency id="System.IO.FileSystem" version="4.0.1" />
+                <dependency id="System.IO.FileSystem.Watcher" version="4.0.0" />
+                <dependency id="System.Reflection.Extensions" version="4.0.1" />
+                <dependency id="System.Reflection.TypeExtensions" version="4.1.0" />
+                <dependency id="System.Runtime.Extensions" version="4.1.0" />
+                <dependency id="System.Runtime.InteropServices" version="4.1.0" />
+                <dependency id="System.Runtime.InteropServices.RuntimeInformation" version="4.0.0" />
+                <dependency id="System.Threading" version="4.0.11" />
+                <dependency id="System.Threading.Thread" version="4.0.0" />
+            </group>
+        </dependencies>
     </metadata>
     <files>
-        <file src="OpenTK.dll" target="lib/netstandard13" />
-        <file src="OpenTK.xml" target="lib/netstandard13" />
+        <file src="OpenTK.dll" target="lib/netstandard1.3" />
+        <file src="OpenTK.xml" target="lib/netstandard1.3" />
     </files>
 </package>

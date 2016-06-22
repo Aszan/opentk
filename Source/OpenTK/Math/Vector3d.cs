@@ -24,8 +24,9 @@ SOFTWARE.
 
 using System;
 using System.Runtime.InteropServices;
+#if !NETCORE
 using System.Xml.Serialization;
-
+#endif
 namespace OpenTK
 {
     /// <summary>
