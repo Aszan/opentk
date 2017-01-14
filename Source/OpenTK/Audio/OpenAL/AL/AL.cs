@@ -1362,11 +1362,33 @@ namespace OpenTK.Audio.OpenAL
         /// <param name="n">The number of buffers to be deleted.</param>
         /// <param name="buffers">Pointer to an array of buffer names identifying the buffers to be deleted.</param>
         [CLSCompliant(false)]
+        unsafe public static void DeleteBuffers(int n, [In] int* buffers) => DeleteBuffersS_dptr(n, buffers);
+        private static DeleteBuffersS_d DeleteBuffersS_dptr = ALNativeLib.LoadFunctionPointer<DeleteBuffersS_d>("alDeleteBuffers");
+        private unsafe delegate void DeleteBuffersS_d(int n, [In] int* buffers);
+
+        /// <summary>This function deletes one or more buffers, freeing the resources used by the buffer. Buffers which are attached to a source can not be deleted. See AL.Source (ALSourcei) and AL.SourceUnqueueBuffers for information on how to detach a buffer from a source.</summary>
+        /// <param name="n">The number of buffers to be deleted.</param>
+        /// <param name="buffers">Pointer to an array of buffer names identifying the buffers to be deleted.</param>
+        [CLSCompliant(false)]
         public static void DeleteBuffers(int n, [In] ref uint buffers)
         {
             unsafe
             {
                 fixed (uint* pbuffers = &buffers)
+                {
+                    DeleteBuffers(n, pbuffers);
+                }
+            }
+        }
+
+        /// <summary>This function deletes one or more buffers, freeing the resources used by the buffer. Buffers which are attached to a source can not be deleted. See AL.Source (ALSourcei) and AL.SourceUnqueueBuffers for information on how to detach a buffer from a source.</summary>
+        /// <param name="n">The number of buffers to be deleted.</param>
+        /// <param name="buffers">Pointer to an array of buffer names identifying the buffers to be deleted.</param>
+        public static void DeleteBuffers(int n, [In] ref int buffers)
+        {
+            unsafe
+            {
+                fixed (int* pbuffers = &buffers)
                 {
                     DeleteBuffers(n, pbuffers);
                 }
@@ -1383,10 +1405,26 @@ namespace OpenTK.Audio.OpenAL
             DeleteBuffers(buffers.Length, ref buffers[0]);
         }
 
+        /// <summary>This function deletes one or more buffers, freeing the resources used by the buffer. Buffers which are attached to a source can not be deleted. See AL.Source (ALSourcei) and AL.SourceUnqueueBuffers for information on how to detach a buffer from a source.</summary>
+        /// <param name="buffers">Pointer to an array of buffer names identifying the buffers to be deleted.</param>
+        public static void DeleteBuffers(int[] buffers)
+        {
+            if (buffers == null) throw new ArgumentNullException();
+            if (buffers.Length == 0) throw new ArgumentOutOfRangeException();
+            DeleteBuffers(buffers.Length, ref buffers[0]);
+        }
+
         /// <summary>This function deletes one buffer only, freeing the resources used by the buffer. Buffers which are attached to a source can not be deleted. See AL.Source (ALSourcei) and AL.SourceUnqueueBuffers for information on how to detach a buffer from a source.</summary>
         /// <param name="buffer">Pointer to a buffer name identifying the buffer to be deleted.</param>
         [CLSCompliant(false)]
         public static void DeleteBuffer(ref uint buffer)
+        {
+            DeleteBuffers(1, ref buffer);
+        }
+
+        /// <summary>This function deletes one buffer only, freeing the resources used by the buffer. Buffers which are attached to a source can not be deleted. See AL.Source (ALSourcei) and AL.SourceUnqueueBuffers for information on how to detach a buffer from a source.</summary>
+        /// <param name="buffer">Pointer to a buffer name identifying the buffer to be deleted.</param>
+        public static void DeleteBuffer(int buffer)
         {
             DeleteBuffers(1, ref buffer);
         }
