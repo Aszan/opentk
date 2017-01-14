@@ -87,6 +87,7 @@
     <Compile Include="..\GlobalAssemblyInfo.cs" Condition="Exists('..\GlobalAssemblyInfo.cs')">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Audio\NativeLibrary.cs" />
     <Compile Include="DisplayDevice.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -789,8 +790,7 @@
   <Target Name="AfterBuild">
     <!-- Copy dependencies to the output directory so we can resolve them with Cecil -->
     <Message Importance="high" Text="References:@(Reference)" />
-    <Copy SourceFiles="@(Reference)"
-          DestinationFolder="$(OutDir)" />
+    <Copy SourceFiles="@(Reference)" DestinationFolder="$(OutDir)" />
     <Exec Command="$(OutputPath)..\..\Tools\Debug\Rewrite.exe $(OutputPath)OpenTK.dll ..\..\OpenTK.snk -debug -netcore" Condition="$(OS) == 'Windows_NT' and $(Configuration) == 'Debug'" />
     <Exec Command="$(OutputPath)..\..\Tools\Release\Rewrite.exe $(OutputPath)OpenTK.dll ..\..\OpenTK.snk -netcore" Condition="$(OS) == 'Windows_NT' and $(Configuration) != 'Debug'" />
     <Exec Command="mono $(OutputPath)..\..\Tools\Debug\Rewrite.exe $(OutputPath)OpenTK.dll ..\..\OpenTK.snk -debug -netcore" Condition="$(OS) != 'Windows_NT' and $(Configuration) == 'Debug'" />

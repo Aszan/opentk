@@ -1,6 +1,7 @@
 ﻿{
   "dependencies": {
     "Microsoft.Win32.Primitives": "4.0.1",
+    "System.AppContext": "4.1.0",
     "System.Collections": "4.0.11",
     "System.Collections.Specialized": "4.0.1",
     "System.ComponentModel.Primitives": "4.1.0",
