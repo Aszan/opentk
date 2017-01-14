@@ -58,9 +58,9 @@ namespace OpenTK.Audio
             {
                 return new WindowsNativeLibrary(libraryName);
             }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                return new LinuxNativeLibrary(libraryName);
+                return new Unix(libraryName);
             }
             else
             {
@@ -91,9 +91,9 @@ namespace OpenTK.Audio
             }
         }
 
-        private class LinuxNativeLibrary : NativeLibrary
+        private class Unix : NativeLibrary
         {
-            public LinuxNativeLibrary(string libraryName) : base(libraryName)
+            public Unix(string libraryName) : base(libraryName)
             {
             }
 
@@ -136,16 +136,16 @@ namespace OpenTK.Audio
 
     internal static class Libdl
     {
-        [DllImport("libdl.so")]
+        [DllImport("libdl")]
         public static extern IntPtr dlopen(string fileName, int flags);
 
-        [DllImport("libdl.so")]
+        [DllImport("libdl")]
         public static extern IntPtr dlsym(IntPtr handle, string name);
 
-        [DllImport("libdl.so")]
+        [DllImport("libdl")]
         public static extern int dlclose(IntPtr handle);
 
-        [DllImport("libdl.so")]
+        [DllImport("libdl")]
         public static extern string dlerror();
 
         public const int RTLD_NOW = 0x002;
