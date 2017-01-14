@@ -547,6 +547,15 @@ namespace OpenTK.Audio.OpenAL
             DeleteBuffers(sources.Length, ref sources[0]);
         }
 
+        /// <summary>This function deletes one or more sources.</summary>
+        /// <param name="sources">An array of source names identifying the sources to be deleted.</param>
+        public static void DeleteSources(int[] sources)
+        {
+            if (sources == null) throw new ArgumentNullException();
+            if (sources.Length == 0) throw new ArgumentOutOfRangeException();
+            DeleteBuffers(sources.Length, ref sources[0]);
+        }
+
         /// <summary>This function deletes one source only.</summary>
         /// <param name="source">Pointer to a source name identifying the source to be deleted.</param>
         [CLSCompliant(false)]
@@ -1240,10 +1249,44 @@ namespace OpenTK.Audio.OpenAL
         /// <param name="sid">The name of the source to unqueue buffers from.</param>
         /// <param name="numEntries">The number of buffers to be unqueued.</param>
         /// <param name="bids">A pointer to an array of buffer names that were removed.</param>
-        unsafe public static void SourceUnqueueBuffers ( uint sid, int numEntries, [In] uint* bids ) => SourceUnqueueBuffers_dptr ( sid, numEntries, bids );
-        private static SourceUnqueueBuffers_d SourceUnqueueBuffers_dptr = ALNativeLib.LoadFunctionPointer<SourceUnqueueBuffers_d>("alSourceUnqueueBuffers");
-        private unsafe delegate void SourceUnqueueBuffers_d ( uint sid, int numEntries, [In] uint* bids );
+        unsafe public static void SourceUnqueueBuffers ( uint sid, int numEntries, [In] uint* bids ) => SourceUnqueueBuffers1_dptr ( sid, numEntries, bids );
+        private static SourceUnqueueBuffers1_d SourceUnqueueBuffers1_dptr = ALNativeLib.LoadFunctionPointer<SourceUnqueueBuffers1_d>("alSourceUnqueueBuffers");
+        private unsafe delegate void SourceUnqueueBuffers1_d ( uint sid, int numEntries, [In] uint* bids );
         // AL_API void AL_APIENTRY alSourceUnqueueBuffers( ALuint sid, ALsizei numEntries, ALuint *bids );
+
+        /// <summary>This function unqueues a set of buffers attached to a source. The number of processed buffers can be detected using AL.GetSource with parameter ALGetSourcei.BuffersProcessed, which is the maximum number of buffers that can be unqueued using this call. The unqueue operation will only take place if all n buffers can be removed from the queue.</summary>
+        /// <param name="sid">The name of the source to unqueue buffers from.</param>
+        /// <param name="numEntries">The number of buffers to be unqueued.</param>
+        /// <param name="bids">A pointer to an array of buffer names that were removed.</param>
+        [CLSCompliant(false)]
+        public static void SourceUnqueueBuffers ( uint sid, int numEntries, [Out] uint[] bids ) => SourceUnqueueBuffers2_dptr ( sid, numEntries, bids );
+        private static SourceUnqueueBuffers2_d SourceUnqueueBuffers2_dptr = ALNativeLib.LoadFunctionPointer<SourceUnqueueBuffers2_d>("alSourceUnqueueBuffers");
+        private delegate void SourceUnqueueBuffers2_d ( uint sid, int numEntries, [Out] uint[] bids );
+
+        /// <summary>This function unqueues a set of buffers attached to a source. The number of processed buffers can be detected using AL.GetSource with parameter ALGetSourcei.BuffersProcessed, which is the maximum number of buffers that can be unqueued using this call. The unqueue operation will only take place if all n buffers can be removed from the queue.</summary>
+        /// <param name="sid">The name of the source to unqueue buffers from.</param>
+        /// <param name="numEntries">The number of buffers to be unqueued.</param>
+        /// <param name="bids">A pointer to an array of buffer names that were removed.</param>
+        public static void SourceUnqueueBuffers ( int sid, int numEntries, [Out] int[] bids ) => SourceUnqueueBuffers3_dptr ( sid, numEntries, bids );
+        private static SourceUnqueueBuffers3_d SourceUnqueueBuffers3_dptr = ALNativeLib.LoadFunctionPointer<SourceUnqueueBuffers3_d>("alSourceUnqueueBuffers");
+        private delegate void SourceUnqueueBuffers3_d ( int sid, int numEntries, [Out] int[] bids );
+
+        /// <summary>This function unqueues a set of buffers attached to a source. The number of processed buffers can be detected using AL.GetSource with parameter ALGetSourcei.BuffersProcessed, which is the maximum number of buffers that can be unqueued using this call. The unqueue operation will only take place if all n buffers can be removed from the queue.</summary>
+        /// <param name="sid">The name of the source to unqueue buffers from.</param>
+        /// <param name="numEntries">The number of buffers to be unqueued.</param>
+        /// <param name="bids">A pointer to an array of buffer names that were removed.</param>
+        [CLSCompliant(false)]
+        public static void SourceUnqueueBuffers ( uint sid, int numEntries, ref uint bids ) => SourceUnqueueBuffers4_dptr ( sid, numEntries, ref bids );
+        private static SourceUnqueueBuffers4_d SourceUnqueueBuffers4_dptr = ALNativeLib.LoadFunctionPointer<SourceUnqueueBuffers4_d>("alSourceUnqueueBuffers");
+        private delegate void SourceUnqueueBuffers4_d ( uint sid, int numEntries, ref uint bids );
+
+        /// <summary>This function unqueues a set of buffers attached to a source. The number of processed buffers can be detected using AL.GetSource with parameter ALGetSourcei.BuffersProcessed, which is the maximum number of buffers that can be unqueued using this call. The unqueue operation will only take place if all n buffers can be removed from the queue.</summary>
+        /// <param name="sid">The name of the source to unqueue buffers from.</param>
+        /// <param name="numEntries">The number of buffers to be unqueued.</param>
+        /// <param name="bids">A pointer to an array of buffer names that were removed.</param>
+        public static void SourceUnqueueBuffers ( int sid, int numEntries, ref int bids ) => SourceUnqueueBuffers5_dptr ( sid, numEntries, ref bids );
+        private static SourceUnqueueBuffers5_d SourceUnqueueBuffers5_dptr = ALNativeLib.LoadFunctionPointer<SourceUnqueueBuffers5_d>("alSourceUnqueueBuffers");
+        private delegate void SourceUnqueueBuffers5_d ( int sid, int numEntries, ref int bids );
 
         /// <summary>This function unqueues a set of buffers attached to a source. The number of processed buffers can be detected using AL.GetSource with parameter ALGetSourcei.BuffersProcessed, which is the maximum number of buffers that can be unqueued using this call. The unqueue operation will only take place if all n buffers can be removed from the queue.</summary>
         /// <param name="sid">The name of the source to unqueue buffers from.</param>
@@ -1254,8 +1297,18 @@ namespace OpenTK.Audio.OpenAL
             return (int)buf;
         }
 
-        #endregion SourceUnqueueBuffers
+        /// <summary>This function unqueues a set of buffers attached to a source. The number of processed buffers can be detected using AL.GetSource with parameter ALGetSourcei.BuffersProcessed, which is the maximum number of buffers that can be unqueued using this call. The unqueue operation will only take place if all n buffers can be removed from the queue.</summary>
+        /// <param name="sid">The name of the source to unqueue buffers from.</param>
+        /// <param name="numEntries">The number of buffers to be unqueued.</param>
+        public static int[] SourceUnqueueBuffers(int sid, int numEntries)
+        {
+            if (numEntries <= 0) throw new ArgumentOutOfRangeException("numEntries", "Must be greater than zero.");
+            int[] buf = new int[numEntries];
+            SourceUnqueueBuffers(sid, numEntries, buf);
+            return buf;
+        }
 
+        #endregion SourceUnqueueBuffers
         #endregion Source Queuing
 
         /*
