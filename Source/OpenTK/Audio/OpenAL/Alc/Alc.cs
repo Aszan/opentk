@@ -75,9 +75,6 @@ namespace OpenTK.Audio.OpenAL
     {
         #region Constants
 
-        private const string Lib = AL.Lib;
-        private const CallingConvention Style = CallingConvention.Cdecl;
-
         #endregion Constants
 
         #region Context Management

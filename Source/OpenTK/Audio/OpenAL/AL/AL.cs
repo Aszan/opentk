@@ -74,7 +74,6 @@ namespace OpenTK.Audio.OpenAL
 
         #region Constants
 
-        internal const string Lib = "openal32.dll";
         internal static string GetOpenALLibName()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -94,8 +93,6 @@ namespace OpenTK.Audio.OpenAL
                 return "openal32.dll";
             }
         }
-
-        private const CallingConvention Style = CallingConvention.Cdecl;
 
         #endregion Constants
 
@@ -272,8 +269,9 @@ namespace OpenTK.Audio.OpenAL
             Listener(param, values.X, values.Y, values.Z);
         }
 
-        [DllImport(AL.Lib, EntryPoint = "alListenerfv", ExactSpelling = true, CallingConvention = AL.Style), SuppressUnmanagedCodeSecurity()]
-        unsafe private static extern void ListenerPrivate(ALListenerfv param, float* values);
+        private unsafe delegate void ListenerPrivate_d(ALListenerfv param, float* values);
+        private static ListenerPrivate_d alListenerfv_ptr = ALNativeLib.LoadFunctionPointer<ListenerPrivate_d>("alListenerfv");
+        unsafe private static void ListenerPrivate(ALListenerfv param, float* values) => alListenerfv_ptr(param, values);
         // AL_API void AL_APIENTRY alListenerfv( ALenum param, const ALfloat* values );
 
         /// <summary>This function sets a floating-point vector property of the listener.</summary>
