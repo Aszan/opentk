@@ -87,7 +87,7 @@
     <Compile Include="..\GlobalAssemblyInfo.cs" Condition="Exists('..\GlobalAssemblyInfo.cs')">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Audio\NativeLibrary.cs" />
+    <Compile Include="NativeLibrary.cs" />
     <Compile Include="DisplayDevice.cs">
       <SubType>Code</SubType>
     </Compile>

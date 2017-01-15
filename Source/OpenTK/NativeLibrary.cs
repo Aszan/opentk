@@ -2,9 +2,9 @@
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace OpenTK.Audio
+namespace OpenTK
 {
-    public abstract class NativeLibrary : IDisposable
+    internal abstract class NativeLibrary : IDisposable
     {
         private readonly string _libraryName;
         private readonly IntPtr _libraryHandle;
@@ -43,7 +43,14 @@ namespace OpenTK.Audio
             }
 
             IntPtr ptr = LoadFunction(functionName);
-            return Marshal.GetDelegateForFunctionPointer<T>(ptr);
+            if (ptr == IntPtr.Zero)
+            {
+                return default(T);
+            }
+            else
+            {
+                return Marshal.GetDelegateForFunctionPointer<T>(ptr);
+            }
         }
 
         public void Dispose()
