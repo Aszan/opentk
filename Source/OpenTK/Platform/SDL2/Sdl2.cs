@@ -41,10 +41,12 @@ namespace OpenTK.Platform.SDL2
 
     partial class SDL
     {
+
         private static NativeLibrary NativeLib = NativeLibrary.Load(GetLibraryName());
 
         private static string GetLibraryName()
         {
+#if NETCORE
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 return "SDL2.dll";
@@ -61,6 +63,9 @@ namespace OpenTK.Platform.SDL2
             {
                 return "SDL2.dll";
             }
+#else
+            return "SDL2.dll";
+#endif
         }
 
         public readonly static object Sync = new object();
@@ -86,7 +91,7 @@ namespace OpenTK.Platform.SDL2
             }
         }
 
-        #region Functions
+#region Functions
 
         static string IntPtrToString(IntPtr ptr)
         {
@@ -96,7 +101,7 @@ namespace OpenTK.Platform.SDL2
             //    strlen++;
         }
 
-        #region Cursor
+#region Cursor
 
         [SuppressUnmanagedCodeSecurity]
         private delegate Cursor SDL_CreateColorCursor_d ( Surface surface, int hot_x, int hot_y );
@@ -118,7 +123,7 @@ namespace OpenTK.Platform.SDL2
         private static SDL_SetCursor_d SDL_SetCursor_ptr = NativeLib.LoadFunctionPointer<SDL_SetCursor_d>("SDL_SetCursor");
         public static void SetCursor ( Cursor cursor) => SDL_SetCursor_ptr( cursor );
 
-        #endregion
+#endregion
 
         [SuppressUnmanagedCodeSecurity]
         private delegate void SDL_AddEventWatch_d ( EventFilter filter, IntPtr userdata );
@@ -167,7 +172,7 @@ namespace OpenTK.Platform.SDL2
         private static SDL_FreeSurface_d SDL_FreeSurface_ptr = NativeLib.LoadFunctionPointer<SDL_FreeSurface_d>("SDL_FreeSurface");
         public static void FreeSurface ( IntPtr surface) => SDL_FreeSurface_ptr( surface );
 
-        #region GameContoller
+#region GameContoller
 
         [SuppressUnmanagedCodeSecurity]
         private delegate EventState SDL_GameControllerEventState_d ( EventState state );
@@ -266,7 +271,7 @@ namespace OpenTK.Platform.SDL2
         private static SDL_GameControllerOpen_d SDL_GameControllerOpen_ptr = NativeLib.LoadFunctionPointer<SDL_GameControllerOpen_d>("SDL_GameControllerOpen");
         public static IntPtr GameControllerOpen ( int joystick_index) => SDL_GameControllerOpen_ptr( joystick_index );
 
-        #endregion
+#endregion
 
         [SuppressUnmanagedCodeSecurity]
         private delegate int SDL_GetDisplayBounds_d ( int displayIndex, out Rect rect );
@@ -584,7 +589,7 @@ namespace OpenTK.Platform.SDL2
         private static SDL_WarpMouseInWindow_d SDL_WarpMouseInWindow_ptr = NativeLib.LoadFunctionPointer<SDL_WarpMouseInWindow_d>("SDL_WarpMouseInWindow");
         public static void WarpMouseInWindow ( IntPtr window, int x, int y) => SDL_WarpMouseInWindow_ptr( window, x, y );
 
-        #region SysWM
+#region SysWM
 
         /// <summary>
         /// Retrieves driver-dependent window information.
@@ -611,7 +616,7 @@ namespace OpenTK.Platform.SDL2
         private static SDL_GetWindowWMInfo_d SDL_GetWindowWMInfo_ptr = NativeLib.LoadFunctionPointer<SDL_GetWindowWMInfo_d>("SDL_GetWindowWMInfoInternal");
         static bool GetWindowWMInfoInternal ( IntPtr window, ref SysWMInfo info) => SDL_GetWindowWMInfo_ptr( window, ref info );
 
-        #endregion
+#endregion
 
         public partial class GL
         {
@@ -691,17 +696,17 @@ namespace OpenTK.Platform.SDL2
         public static void SwapWindow ( IntPtr window) => SDL_GL_SwapWindow_ptr( window );
         }
 
-        #endregion
+#endregion
     }
 
-    #region Delegates
+#region Delegates
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     internal delegate int EventFilter(IntPtr userdata, IntPtr @event);
 
-    #endregion
+#endregion
 
-    #region Enums
+#region Enums
 
     enum Button : byte
     {
@@ -1460,9 +1465,9 @@ namespace OpenTK.Platform.SDL2
         ALLOW_HIGHDPI = 0x00002000,
     }
 
-    #endregion
+#endregion
 
-    #region Structs
+#region Structs
 
     struct ControllerAxisEvent
     {
@@ -1856,6 +1861,6 @@ namespace OpenTK.Platform.SDL2
         public Int32 Data2;
     }
 
-    #endregion
+#endregion
 }
 

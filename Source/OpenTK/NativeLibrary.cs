@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -61,6 +62,7 @@ namespace OpenTK
 
         public static NativeLibrary Load(string libraryName)
         {
+#if NETCORE
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 return new WindowsNativeLibrary(libraryName);
@@ -73,6 +75,9 @@ namespace OpenTK
             {
                 throw new PlatformNotSupportedException("Cannot load native libraries on this platform: " + RuntimeInformation.OSDescription);
             }
+#else
+            return new WindowsNativeLibrary(libraryName);
+#endif
         }
 
         private class WindowsNativeLibrary : NativeLibrary

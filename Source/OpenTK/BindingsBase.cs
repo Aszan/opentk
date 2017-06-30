@@ -240,7 +240,27 @@ namespace OpenTK
             Marshal.FreeHGlobal(ptr);
         }
 
-        #endregion
+#if NETCORE
+        protected static unsafe string PtrToStringUtf8(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+            {
+                return string.Empty;
+            }
+
+            int byteCount = 0;
+            byte* bytePtr = (byte*)ptr.ToPointer();
+
+            while (bytePtr[byteCount] != 0)
+            {
+                byteCount += 1;
+            }
+
+            return Encoding.UTF8.GetString(bytePtr, byteCount);
+        }
+#endif
+
+#endregion
 
         #region Internal Members
 

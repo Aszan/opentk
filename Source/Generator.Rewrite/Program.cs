@@ -507,32 +507,42 @@ namespace OpenTK.Rewrite
                 if (wrapper.ReturnType.Name == "String")
                 {
                     // String return-type wrapper
-                    // return new string((sbyte*)((void*)GetString()));
 
-                    var intptr_to_voidpointer = wrapper.Module.Import(coreAssembly.MainModule.GetType("System.IntPtr").GetMethods()
-                        .First(m =>
+                    if (isNetCore)
                     {
-                        return
-                                m.Name == "op_Explicit" &&
-                        m.ReturnType.Name == "Void*";
-                    }));
-
-                    var string_constructor = wrapper.Module.Import(coreAssembly.MainModule.GetType("System.String").GetConstructors()
-                        .First(m =>
+                        // Call MarshalPtrToStringBuilder.
+                        var ptr_to_sb = wrapper.Module.Import(TypeBindingsBase.Methods.First(m => m.Name == "PtrToStringUtf8"));
+                        il.Emit(OpCodes.Call, ptr_to_sb);
+                    }
+                    else
                     {
-                        var p = m.Parameters;
-                        if (isNetCore)
-                        {
-                            return p.Count > 0 && p[0].ParameterType.Name == "Char*";
-                        }
-                        else
-                        {
-                            return p.Count > 0 && p[0].ParameterType.Name == "SByte*";
-                        }
-                    }));
+                        // return new string((sbyte*)((void*)GetString()));
 
-                    il.Emit(OpCodes.Call, intptr_to_voidpointer);
-                    il.Emit(OpCodes.Newobj, string_constructor);
+                        var intptr_to_voidpointer = wrapper.Module.Import(coreAssembly.MainModule.GetType("System.IntPtr").GetMethods()
+                            .First(m =>
+                            {
+                                return
+                                    m.Name == "op_Explicit" &&
+                            m.ReturnType.Name == "Void*";
+                            }));
+
+                        var string_constructor = wrapper.Module.Import(coreAssembly.MainModule.GetType("System.String").GetConstructors()
+                            .First(m =>
+                            {
+                                var p = m.Parameters;
+                                if (isNetCore)
+                                {
+                                    return p.Count > 0 && p[0].ParameterType.Name == "Char*";
+                                }
+                                else
+                                {
+                                    return p.Count > 0 && p[0].ParameterType.Name == "SByte*";
+                                }
+                            }));
+
+                        il.Emit(OpCodes.Call, intptr_to_voidpointer);
+                        il.Emit(OpCodes.Newobj, string_constructor);
+                    }
                 }
                 else if (wrapper.ReturnType.Resolve().IsEnum)
                 {

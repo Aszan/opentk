@@ -58,11 +58,7 @@
       <Output TaskParameter="Lines" ItemName="Version" />
     </ReadLinesFromFile>
     <!-- Execute nuget script -->
-    <Exec Command="nuget.exe	 pack OpenTK.nuspec -Version @(Version)" Condition="$(OS) == 'Windows_NT'" />
-    <Exec Command="nuget.exe   pack OpenTK.GLControl.nuspec -Version @(Version)" Condition="$(OS) == 'Windows_NT'" />
     <Exec Command="nuget.exe   pack OpenTK.NETCore.nuspec -Version @(Version) -BasePath ..\..\Binaries\OpenTK.NETCore\Release" Condition="$(OS) == 'Windows_NT'" />
-    <Exec Command="mono nuget.exe pack OpenTK.nuspec  -Version @(Version)" Condition="$(OS) != 'Windows_NT'" />
-    <Exec Command="mono nuget.exe pack OpenTK.GLControl.nuspec  -Version @(Version)" Condition="$(OS) != 'Windows_NT'" />
     <!-- Copy the nuget archive to the root directory and add a date stamp -->
     <CreateItem Include="OpenTK*.nupkg">
       <Output TaskParameter="Include" ItemName="NugetPackage" />
