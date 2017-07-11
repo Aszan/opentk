@@ -241,7 +241,7 @@ namespace OpenTK
         }
 
 #if NETCORE
-        protected static unsafe string PtrToStringUtf8(IntPtr ptr)
+        internal static unsafe string PtrToStringUtf8(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
             {
